@@ -1,0 +1,109 @@
+#header{
+	background-color:#f1f1f1;
+	height:250px;
+	margin-bottom:0.2em;
+	}
+	#header-inner1{
+	padding:1em 2em;
+	overflow: hidden;
+	height:50%;
+	background-color:gray;
+	
+	}
+	#header-inner1-title{
+		font-size:1.5em;
+		position:relative;
+		top:-10px;
+		left:-50px;
+		float: left;
+		width:50%;
+		
+	}
+	#header-inner1-image{
+	float:left;
+	width:25%;
+	}
+	#header-inner1-image-inner{
+		width:100%;
+	}
+	
+	.header-inner-link ul,.header-inner2-link ul{
+	list-style:none;
+	}
+	.header-inner-link ul li,.header-inner2-link ul li{
+	display:inline;
+	}
+	.header-inner-link ul li a,.header-inner2-link ul li a{
+		text-decoration:none;
+		color:#000;
+		padding:1em;
+	}
+	.header-inner-link ul li a:hover,.header-inner2-link ul li a:hover{
+		opacity:0.5;
+	}
+	
+	.fa{
+		
+		padding: 0.5em 0.9em;
+		font-size:1.5em;
+	
+	}
+	.fa-facebook{
+		
+		margin-left:1em;
+	
+	}
+	#header1-inner-link2 a{
+		color:#000;
+	}
+	#header-inner2{
+		height:50%;
+		background-color:#d3d3d3;
+		}
+	
+	.header-inner2-form{
+	margin-left:500px;
+	padding-top:0.2em;
+	}
+	.header-inner2-form-input{
+	width:400px;
+	height:40px;
+	border:1px solid gray;
+	border-radius:5px;
+	}
+	.header-inner2-form-button{
+	border:1px solid gray;
+	border-radius:5px;
+	position:relative;
+	bottom:-0.2em;
+	}
+	.header-inner2-link{
+		display: flex;
+		justify-content:flex-end;
+		padding-top:0.4em;
+	}
+	#info{
+		display: none;
+	width: 15%;
+	height: 50px;
+	margin-top: 1%; 
+	margin-left: 85%;
+	line-height: 20px;
+	background-color: rgb(238, 150, 212);
+	}
+	#user :hover{
+		cursor: pointer;
+    }
+    #info-main:hover #user-option{
+		display:block;
+	}
+	#user-option{
+		display:none;
+	}
+	#info-main{
+		width:40%;
+	}
+	img{
+		width:50px;
+		height:50px;
+	}

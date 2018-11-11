@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>MOKI</title>
+    <link rel="stylesheet" href="/css/themsanpham.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+      img {
+        width: 150px;
+        height: 150px;
+      }
+    </style>
+</head>
+<body>
+    <% include template/header %>
+      <div class="row">
+        <div class="column side" id="menuleft">
+          <div id="sidebar">
+            <ul>
+                <li><a class="active" href="/">Trang chinh</a></li>
+                <li><a href="#news">Tài khoản</a></li>
+                <li><a href="#about">Sản phẩm</a></li>
+                <li><a href="#contact">Hỗ trợ bán hàng</a></li>
+                <li><a href="#about">Trung tâm hỗ trợ</a></li>
+                <li><a href="#about">Quản lý bán hàng</a></li>
+                <li><a href="#about">Shop</a></li>
+             </ul>
+         </div>
+        </div>
+
+        <div class="column middle">
+          <% if(err){ %>
+            <% err.forEach(function(error){%>
+          <ul style="list-style: none;">
+            <li><%- error.msg%></li>
+          </ul>
+          <%})%>
+            <%}%>
+            <div id="wrapper-addsp">
+                <div class="container">
+                    <div class="row">
+                      <div class="wrapper-image">
+                        <h1 class="text-center display-4 my-4">Thêm ảnh</h1>
+                        <form action="/upload" method="POST" enctype="multipart/form-data">
+                          <div class="custom-file mb-3">
+                            <input type="file" name="file" id="file" class="custom-file-input">
+                           
+                          </div>
+                          <input type="submit" value="Submit" class="btn-primary">
+                        </form>
+                        <hr>
+                        <% if(files){ %>
+                          <% files.forEach(function(file) { %>
+                            <div class="card card-body mb-3">
+                              <% if(file.isImage) { %>
+                                <img src="image/<%= file.filename %>" alt="">
+                                <% } else { %>
+                                  <%= file.filename %>
+                                    <% } %>
+                                      <form method="POST" action="/files/<%= file._id %>?_method=DELETE">
+                                        <button class="btn btn-danger btn-block mt-4">Delete</button>
+                                      </form>
+                            </div>
+                            <% }) %>
+                              <% } else { %>
+                                <p>No files to show</p>
+                                <% } %>
+                      </div>
+                    </div>
+            </div>
+            <form action="/themsanpham" method="POST">
+            <div class="add">
+               
+                <div style="display:inline;">
+                <div style="display:flex;">
+                    <p id="name">Tên sản phẩm</p>
+                    <input type="text" id ="textinput" name ="nameproduct">
+               </div> 
+               <div style="display:flex;">
+                   <p id = "description">Mô tả sản phẩm</p>
+                   <textarea cols="50" rows="50" id="textarea" name="describleproduct"></textarea>
+               </div>
+               
+                <div>
+                    <div id="list">Danh mục</div>
+                    <div class="custom-select" >
+                        <select name="attached">
+                                <option value="máy tính">Laptop</option>
+                                <option value="chuột">Chuột</option>
+                                <option value="bàn phím">Bàn phím</option>
+                                <option value="ổ cứng">Ổ cứng</option>
+                                <option value="tai nghe">Tai nghe</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <div id="nhanhieu">Nhãn hiệu</div>
+                    <div class="custom-select" >
+                         <select name="label">
+                                 <option value="Asus">Asus</option>
+                                 <option value="Dell">Dell</option>
+                                 <option value="HP">HP</option>
+                                 <option value="Lenovo">Lenovo</option>
+                                 <option value="Acer">Acer</option>
+                         </select>
+                </div>
+                <div>
+                   <div id="khoiluong">Khối lượng</div>
+                   <div class="custom-select" >
+                         <select name="weight">
+                              <option value="0.5kg đến 1kg">0.5kg đến 1kg</option>
+                              <option value="1kg đến 2kg">1kg đến 2kg</option>
+                              <option value="3kg đến  4kg ">3kg đến  4kg </option>
+                              <option value="4kg đến 5kg ">4kg đến 5kg </option>
+                              <option value="trên 5kg">trên 5kg</option>
+                         </select>
+                   </div>
+                </div>
+                <div>
+                  <div id="trangthai">Trạng thái </div>
+                  <div class="custom-select" >
+                    <select name="state">
+                         <option value="Còn mới">Còn mới</option>
+                         <option value="Đã qua sử dụng">Đã qua sử dụng</option>
+                    </select>
+                  </div>
+                  </div>
+                    <div style="display:flex;">
+                     <p id = "gia">Giá</p>
+                     <input type="number" id="giatext" name="price">
+                    </div>
+                  </div>
+                  <br>
+                  <div style="display:flex">
+                    <div>
+                        <input type="text" value="<%= user.username%>" name ="nameuser" hidden>
+                        <input  id="add" class="button button3" type="submit" name="Thêm sản phẩm" value="Thêm sản phẩm" >
+                    </div>
+                    <div>
+                        <input  class="button button3" type="submit" name="Quay lại" value="Quay lại" >
+                    </div>
+                  </div>
+            </div>
+            </div>
+          </form>
+        
+          </div>
+        </div>
+
+        <div class="column side"></div>
+      </div>
+     
+      <% include template/footer %>
+    
+      <script src="/js/themsanpham.js"></script>
+      <script src="/js/jqurey.js"></script>
+</body>
+<script>
+function uploadimage(){
+ $("#taianh").attr("src",$("#ta").val());
+}
+</script>
+</html> 

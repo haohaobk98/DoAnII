@@ -1,0 +1,166 @@
+<!doctype html>
+<html>
+    <head>
+        <title>
+            app read books
+        </title>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="/js/jqurey.js"></script>
+        <script src="/js/chucnang.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/css/footer.css" type="text/css" >   
+        <link rel="stylesheet" href="/css/template.css" type="text/css" >  
+        <link rel="stylesheet" href="/css/body.css" type="text/css" >  
+        <link rel="stylesheet" href="/css/DinhDang.css" type="text/css" >  
+        <link rel="stylesheet" href="/css/bootstrap.css" type="text/css" > 
+        <style>
+            #btn-report,#send-report{
+                padding:5px;
+                border:1px solid #000;
+                border-radius:5px;
+                margin-bottom:5px;
+            }
+            .text-report{
+                width:200px;
+                display:none;
+            }
+           
+            #textarea{
+                padding:5px;
+            }
+            #send-report{
+                margin-left:58px;
+            }
+            #user-infomation{
+                display:none;
+            }
+            #showphone{
+                padding:10px 5px;
+                width:380px;
+                text-align:center;
+                background-color:#679bef;
+                border-radius:5px;
+                font-weight:bold;
+            }
+            .tooltip{
+                visibility: hidden;
+                 width: 200px;
+               background-color: black;
+               color: #fff;
+              text-align: center;
+             border-radius: 6px;
+            padding: 5px 0;
+              /* Position the tooltip */
+               position: absolute;
+               z-index: 1;
+            }
+            #shop-link:hover .tooltip{
+                visibility: visible;
+            }
+        </style>
+    </head>
+    <body>
+<div id = "container">
+    <!-- header starts here-->
+<% include template/header %>
+<div id ="container_inner">
+    <!-- nav starts here-->
+<div id="container_inner_nav">
+<div id="container_inner_nav-inner">
+<% include template/nav %>
+</div>
+</div>
+    <!-- content starts here -->
+<div id = "container_inner_content">
+<div id ="container_inner_content-inner">
+    <div id ="san-pham">
+        <div class="container">
+                <table class="row">
+                    <tr>
+                 <th id = "left"> <div class="col-sm-4">
+                         
+                              <div class="card card-body mb-3">
+                            
+                                  <img id="image"src="/image/<%= data.image %>" alt="" width="250px" height="250px">
+                           
+                              </div><br>
+                              <!-- <div id="report">
+                              <button id="btn-report">report sản phẩm</button>
+
+                              <% if(user) { %>
+                                <div class="text-report">
+                                    <form method="POST" action="">
+                                        <label style="font-weight:normal;">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspLí do report:</label>
+                                        <textarea id="textarea" rows="10" cols="35"></textarea>
+                                        <input type="button" value="send" id="send-report">
+                                    </form>
+                                </div>
+                                <div id="thanks-report" style="display:none;">
+                                    <p>Cảm ơn sự góp ý của bạn!</p>
+                                </div>
+                              <% } %>
+                              <% if(!user){ %>
+                                <div class="text-report" style="margin-top:5px;margin-left:23px;">Bạn hãy đăng nhập để report về sản phẩm</div>
+                              <% }%>
+                            </div> -->
+                                
+                  
+                  </div></th>
+                  <th id="right">
+                      <div class="col-sm-6">
+                    <label>Tên sản phẩm: </label>
+                    <span id="name"><%- data.name %></span><hr>
+                    <label>Giá sản phẩm: </label>
+                    <span id="price"><%- data.price %></span><br>
+                    <label>Nhãn hiệu: </label>
+                    <span id="label"><%- data.label %> </span><hr>
+                    <label>Trạng thái: </label>
+                    <span id="state"><%- data.state %> </span><br>
+                    <label>Danh mục: </label>
+                    <span id="attached"><%- data.attached %></span><br>
+                    <label>Khối lượng: </label>
+                    <span id="weight"><%- data.weight %></span><br>
+                    <label>Đăng bởi: </label>
+                    <span id="shop"><a id="shop-link" href="/listproduct/<%-udata.username%>"><%- data.shop %> </a></span>
+                    <div class="tooltip">Click để xem các sản phẩm đã đăng</div>
+                    <hr>
+                    <button id="showphone">Click để xem số điện thoại.</button>
+                    <div id="user-infomation">
+                    <label>Email: </label>
+                    <span><%- udata.email %></span><br>
+                    <label>Phone:</label>
+                    <span><%- udata.PhoneNumber %></span><br>
+                   </div>
+                  </div>
+                </th>
+                </tr>
+                </table>
+              </div>
+        <div class="option">
+            <ul>
+                <li onclick="mota()">Mô tả</li>
+                <li onclick="binhluan()">Đánh giá/Bình luận</li>
+            </ul>
+        </div>
+        <textarea id="mota" cols="100" rows="20" style="border: none;"><%-data.describle %></textarea>
+       </div>
+       <%if(user){%>
+       <div id="binhluan">
+            <label><%-user.name%>: </label>
+            <textarea rows="5" cols="50" name="description" placeholder="Comment" id = "Comment"></textarea>
+            <input type="button" id="send" value="Send">
+            <textarea rows="5" cols="50" name="description" placeholder="Comment" id = "showcomment" disabled><%-data.comment%></textarea>
+       </div>
+       <%}%>
+       <%if(!user){%>
+           <div>Bạn hãy đăng nhập để bình luận về sản phẩm</div>
+        <%}%>
+</div>
+
+</div>
+</div>
+
+<% include template/footer %>
+</div>
+</div>
+<% include template/body2 %>

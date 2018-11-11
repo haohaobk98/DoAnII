@@ -1,0 +1,65 @@
+
+<!doctype html>
+
+<html>
+    <head>
+        <title>
+            MOKI
+        </title>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="/js/jqurey.js"></script>
+        <script src="/js/chucnang.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/css/footer.css" type="text/css" >   
+        <link rel="stylesheet" href="/css/template.css" type="text/css" >  
+        <link rel="stylesheet" href="/css/body.css" type="text/css" >  
+        <link rel="stylesheet" href="/css/DinhDang.css" type="text/css" >  
+        <link rel="stylesheet" href="/css/bootstrap.css" type="text/css" > 
+    </head>
+    <body>
+<div id = "container">
+    <!-- header starts here-->
+	<!-- HEADER STARTS HERE -->
+    <% include template/header %>
+    <!-- HEADER ENDS HERE -->
+<div id ="container_inner">
+    <!-- nav starts here-->
+<div id="container_inner_nav">
+<div id="container_inner_nav-inner">
+<% include template/nav %>
+</div>
+</div>
+    <!-- content starts here -->
+<div id = "container_inner_content">
+<div id ="container_inner_content-inner">
+
+
+    <div class="title-sp">
+       Thông tin tài khoản của bạn
+      </div><hr>
+      <div  id =" thongtin">
+                    <% if(kq.length==0){%>
+                     <h2>Không tìm thấy sản phẩm </h2>
+                      
+                  <% } else {  kq.forEach((data)=>{%>
+                      <span class ="ten" id = "ten-1"><b>Họ và tên:</b> <i class="maininfo"><%= data.name%></i></span><hr>
+                        <span class ="ten" id = "ten-1"><b>Tài khoản: </b><i class="maininfo"><%= data.username%></i></span><hr>
+                       <span class ="gia" id = "gia-1" style="color:#000;"><b>Email:</b> <i class="maininfo"><%= data.email%></i></span><hr>   
+                 
+                       <span class ="sdt" id = "sdt-1" style="color:#000;"><b>Số điện thoại:</b> <i class="maininfo1"><%= data.PhoneNumber%></i></span><hr> 
+                       
+                        <button id="modifier-user"><a href="/user/modifier/<%-data.username%>">Chỉnh sửa thông tin</a> </button>
+                        <% })} %>
+      </div>
+
+
+</div>
+</div>
+</div>
+    <!-- footer starts here-->
+<div id = "container_inner_footer">
+<% include template/footer %>
+</div>
+</div>
+<% include template/body2 %>
+

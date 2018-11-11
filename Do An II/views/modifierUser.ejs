@@ -1,0 +1,86 @@
+<html>
+    <head>
+        <title>
+            app read books
+        </title>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="/js/jqurey.js"></script>
+        <script src="/js/chucnang.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/css/footer.css" type="text/css" >   
+        <link rel="stylesheet" href="/css/template.css" type="text/css" >  
+        <link rel="stylesheet" href="/css/body.css" type="text/css" >  
+        <link rel="stylesheet" href="/css/DinhDang.css" type="text/css" >  
+        <link rel="stylesheet" href="/css/bootstrap.css" type="text/css" > 
+    </head>
+    <body>
+<div id = "container">
+    <!-- header starts here-->
+    <!-- HEADER STARTS HERE -->
+    <% include template/header %>
+    <!-- HEADER ENDS HERE -->
+<div id ="container_inner">
+    <!-- nav starts here-->
+<div id="container_inner_nav">
+<div id="container_inner_nav-inner">
+<% include template/nav %>
+</div>
+</div>
+    <!-- content starts here -->
+<div id = "container_inner_content">
+<div id ="container_inner_content-inner">
+
+
+    <% if(errors) {%>
+        <ul>
+            <% errors.forEach(function(err) {%>
+                <li class ="register-validator"><%= err.msg %></li>
+                <%})%>
+        </ul>
+     <% } %>
+<div class="title-sp">
+   Thông tin tài khoản của bạn
+  </div><hr>
+  <div  id =" thongtin">
+                <% if(user.length==0){%>
+                 <h2>Không tìm thấy sản phẩm </h2>
+                  
+              <% } else {user.forEach(function(data) {%>
+                <form method="POST" action="/user/modifier/<%-data.username%>">
+                <table>
+                    <tr>
+                        <th></th>
+                        <td> <input type="text" name="username" id="username" value="<%=data.username %>" hidden>
+                        </td>
+                    </tr>
+                    <tr>
+                            <th>Tài khoản :</th>
+                            <td> <input type="text" name="name" id="name" class="input-info" value="<%=data.name %>">
+                            </td>
+                        </tr>
+                      <tr>
+                                <th>Email :</th>
+                                <td> <input type="text" name="email" id="email" class="input-info" value="<%=data.email %>">
+                                </td>
+                       </tr>
+                       <tr>
+                           <th>Số điện thoại :</th>
+                           <td><input type="text" name="phone" id="phone" class="input-info" value="<%=data.PhoneNumber %>"></td>
+                       </tr>
+                </table><hr>
+                  <input type="submit" value="Cập nhật" id="update-user">
+                </form>
+              <% })} %>
+      </div>
+
+
+</div>
+</div>
+</div>
+    <!-- footer starts here-->
+<div id = "container_inner_footer">
+<% include template/footer %>
+</div>
+</div>
+<% include template/body2 %>
+

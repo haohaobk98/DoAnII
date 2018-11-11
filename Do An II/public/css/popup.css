@@ -1,0 +1,175 @@
+#chat{
+    background-color: rgb(53, 135, 230);
+    font-size: 20px;
+    color: white;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    opacity: 0.8;
+    position: fixed;
+    bottom: 23px;
+    right: 28px;
+    width: 80px;
+    height: 80px;
+    vertical-align: middle;
+    border-radius: 50%;
+    outline: none;
+  }
+  #chat:hover{
+      opacity: 1;
+  }
+  
+  .pop-up-box{
+      position: fixed;
+      bottom: 0px;
+      right: 20px;
+      height: 350px;
+      width: 286px;
+  }
+  
+  .pop-up-head{
+      background-color: rgb(8, 79, 160);
+      width: 100%;
+      height: 30px;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+  }
+  
+  .pop-up-left{
+      float: left;
+      margin-top: 3px;
+  }
+  
+  .pop-up-right{
+      float: right;
+      cursor: pointer;
+      opacity: 0.5;
+  }
+  
+  .pop-up-right:hover{
+      opacity: 1;
+  }
+  #close{
+      padding-right: 5px; 
+      text-align: right;
+      
+  }
+  
+  .pop-up-mess{
+      height: 280px;
+      background-color: rgb(200, 207, 207);
+      overflow-y: scroll;
+  }
+  
+  ul.ChatLog {
+      list-style: none;
+    }
+    
+  .ChatLog {
+      max-width: 20em;
+      margin: 0 auto;
+      padding-left: 0;
+    }
+    .ChatLog .ChatLog__entry {
+      margin: .5em;
+    }
+    
+    .ChatLog__entry {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-end;
+      max-width: 100%;
+    }
+    
+    .ChatLog__entry.ChatLog__entry_mine {
+      flex-direction: row-reverse;  
+    }
+  
+    .ChatLog__entry .ChatLog__message {
+      position: relative;
+      margin: 0 12px;
+    }
+    
+    .ChatLog__entry .ChatLog__message::before {
+      position: absolute;
+      right: auto;
+      bottom: .6em;
+      left: -12px;
+      height: 0;
+      content: '';
+      border: 6px solid transparent;
+      border-right-color: #ddd;
+      z-index: 2;
+    }
+    
+    .ChatLog__entry.ChatLog__entry_mine .ChatLog__message::before {
+      right: -12px;
+      bottom: .6em;
+      left: auto;
+      border: 6px solid transparent;
+      border-left-color: #08f;
+    }
+    
+    .ChatLog__message {
+      background-color: #ddd;
+      padding: .5em;
+      border-radius: 4px;
+      font-weight: lighter;
+      max-width: 70%;
+    }
+    
+    .ChatLog__entry.ChatLog__entry_mine .ChatLog__message {
+      border-top: 1px solid #07f;
+      border-bottom: 1px solid #07f;
+      background-color: #08f;
+      color: #fff;
+    }
+    
+  .ChatLog__avatar {
+    background-color: rgb(53, 135, 230);
+    font-size: 20px;
+    color: white;
+    padding: 10px 12px;
+    width: 18px;
+    height: 18px;
+    line-height: 14px;
+    vertical-align: middle;
+    border-radius: 50%;
+  
+    }
+  .pop-up-footer{
+      background-color: #ffffff;
+  }
+  
+  .pop-up-footer input{
+      float: left;
+      width: 75%;
+      border: none;
+      resize: none;
+      padding: 5px;
+      overflow: hidden;
+      background-color: transparent;
+      font-size: 16px;
+      outline: none;
+  }
+  
+  .pop-up-footer button{
+      float: right;
+      width: 20%;
+      background-color: transparent;
+      border: none;
+      text-align: center;
+      font-weight: bold;
+      outline: none;
+      cursor: pointer;
+      padding: 5px;
+      margin-top: 8px;
+      font-size: 14px;
+      color: rgb(15, 109, 218);
+      opacity: 0.8;
+  }
+  
+  .pop-up-footer button:hover{
+      opacity: 1;
+  }

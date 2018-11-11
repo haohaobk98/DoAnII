@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>MOKI</title>
+    <link rel="stylesheet" href="/css/themsanpham.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+      img {
+        width: 150px;
+        height: 150px;
+      }
+    </style>
+</head>
+<body>
+  <% include template/header %>
+      <div class="row">
+        <div class="column side" id="menuleft">
+          <div id="sidebar">
+            <ul>
+                <li><a class="active" href="/">Trang chinh</a></li>
+                <li><a href="#news">Tài khoản</a></li>
+                <li><a href="#about">Sản phẩm</a></li>
+                <li><a href="#contact">Hỗ trợ bán hàng</a></li>
+                <li><a href="#about">Trung tâm hỗ trợ</a></li>
+                <li><a href="#about">Quản lý bán hàng</a></li>
+                <li><a href="#about">Shop</a></li>
+             </ul>
+         </div>
+        </div>
+
+        <div class="column middle">
+          <% if(err){ %>
+            <% err.forEach(function(error){%>
+          <ul style="list-style: none;">
+            <li><%- error.msg%></li>
+          </ul>
+          <%})%>
+            <%}%>
+            <div id="wrapper-addsp">
+                <div class="container">
+                    <div class="row">
+                      <div class="wrapper-image">
+
+                        <h1 class="text-center display-4 my-4">Hình ảnh sản phẩm</h1>
+                        <hr>
+                        
+                                <img src="/image/<%= data.image %>" alt="">
+                                
+
+                      </div>
+                    </div>
+            </div>
+            <form action="/updatesp" method="POST">
+              <div class="add">
+              <input type="text" id ="textinput" name ="filename" value="<%= data._id%>" hidden>
+                <div style="display:inline;">
+                <div style="display:flex;">
+                    <p id="name">Tên sản phẩm</p>
+                    <input type="text" id ="textinput" name ="nameproduct" value="<%= data.name %>">
+               </div> 
+               <div style="display:flex;">
+                   <p id = "description">Mô tả sản phẩm</p>
+                   <textarea cols="50" rows="50" id="textarea" name="describleproduct"><%= data.describle%></textarea>
+               </div>         
+                <div>
+                    <div id="list">Danh mục</div>
+                    <div class="custom-select" >
+                        <select name="attached">
+                                <option value="<%= data.attached%>"><%= data.attached%></option>
+                        </select>
+                    </div>
+                </div>
+          
+                    <div id="nhanhieu">Nhãn hiệu</div>
+                    <div class="custom-select" >
+                         <select name="label">
+                                 <option value = "<%= data.label%>"><%= data.label%></option>
+                                 <option value="Asus">Asus</option>
+                                 <option value="Dell">Dell</option>
+                                 <option value="HP">HP</option>
+                                 <option value="Lenovo">Lenovo</option>
+                                 <option value="Acer">Acer</option>
+                         </select>
+                </div>
+                <div>
+                   <div id="khoiluong">Khối lượng</div>
+                   <div class="custom-select" >
+                         <select name="weight">
+                              <option value = "<%= data.weight%>"><%= data.weight%></option>
+                              <option value="0.5kg đến 1kg">0.5kg đến 1kg</option>
+                              <option value="1kg đến 2kg">1kg đến 2kg</option>
+                              <option value="3kg đến  4kg ">3kg đến  4kg </option>
+                              <option value="4kg đến 5kg ">4kg đến 5kg </option>
+                              <option value="trên 5kg">trên 5kg</option>
+                         </select>
+                   </div>
+                </div>
+                  <div id="trangthai">Trạng thái </div>
+                  <div class="custom-select" >
+                    <select name="state">
+                        <option value = "<%= data.state%>"><%= data.state%></option>
+                         <option value="Còn mới">Còn mới</option>
+                         <option value="Đã qua sử dụng">Đã qua sử dụng</option>
+                    </select>
+                  </div>
+
+                    <div style="display:flex;">
+                     <p id = "gia">Giá</p>
+                     <input type="number" id="giatext" name="price" value="<%= data.price%>">
+                    </div>
+                  </div>
+                  <div style="display:flex">
+                      <input type="text" value="<%= user.username%>" name ="nameuser" hidden>
+                        <input  class="button button2" type="submit" name="Chỉnh sửa" value="Chỉnh sửa">
+                  </div>
+                </div>
+                </form>
+                <form action="/delete?_method=DELETE" method="POST">
+                        <input type="text" value="<%= user.username%>" name ="nameuser" hidden>
+                        <input   type="text" value="<%= data.image%>" name ="delete" hidden>
+                        <input   type="text" value="<%= data.attached%>" name ="delete1" hidden>
+                        <input  class="button button3" type="submit" name="Xóa sản phẩm" value="Xóa sản phẩm" >
+             
+                   </form>
+            </div>
+            </div>
+            </div>
+        
+ 
+     
+      <% include template/footer %>
+    
+      <script src="/js/themsanpham.js"></script>
+      <script src="/js/jqurey.js"></script>
+</body>
+<script>
+function uploadimage(){
+ $("#taianh").attr("src",$("#ta").val());
+}
+</script>
+</html> 

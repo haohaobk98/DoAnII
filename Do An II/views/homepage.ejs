@@ -1,0 +1,121 @@
+<!-- <% var i=0  %>
+<% var j=0  %> -->
+<% include template/body1 %>
+<div id = "container">
+    <!-- header starts here-->
+<% include template/header %>
+<div id ="container_inner">
+    <!-- nav starts here-->
+<div id="container_inner_nav">
+<div id="container_inner_nav-inner">
+<% include template/nav %>
+</div>
+</div>
+    <!-- content starts here -->
+<div id = "container_inner_content">
+<div id ="container_inner_content-inner">
+        <div id="main-1">
+                <div class="title-sp">
+                    <label>Danh sách sản phẩm máy tính</label>
+                  </div>
+                  <div class="cuon-1" id =" frame-1">
+                    <table>
+                            <tr>
+                              <% MayTinh.forEach((data)=>{%>
+                                <th>
+                               
+                                      <div class="card card-body mb-3">
+                              
+                                          <a href="/sp/sp/<%-data._id%>">  <img src="image/<%= data.image %>" alt="" width="160px" height="160px"></a>
+     
+                                      </div>
+                       
+                                <span class ="ten" id = "ten-1"><%= data.name%></span><br>
+                                <span class ="gia" id = "gia-1"><%= data.price%></span><br>    
+                              </th>
+                              <% }) %>
+                            </tr>
+                    </table>
+                  </div>
+                  <div class="title-sp">
+                      <label>Danh sách sản phẩm chuột</label>
+                    </div>
+                  <div class="cuon-1" id =" frame-2">
+                      <table>
+                              <tr>
+                                <% Chuot.forEach((data)=>{%>
+                                  <th>
+                                        <div class="card card-body mb-3">
+                                           <a href="/sp/sp/<%-data._id%>"> <img src="image/<%= data.image %>" alt="" width="160px" height="160px"></a>
+                                        </div>
+                                  <span class ="ten" id = "ten-1"><%= data.name%></span><br>
+                                  <span class ="gia" id = "gia-1"><%= data.price%></span><br>    
+                                </th> 
+                                  <% }) %>
+                              </tr>
+                      </table>
+                    </div>
+                    <div class="title-sp">
+                      <label>Danh sách sản phẩm bàn phím</label>
+                    </div>
+                  <div class="cuon-1" id =" frame-3">
+                      <table>
+                              <tr>
+                                <% Banphim.forEach((data)=>{%>
+                                  <th>
+                                        <div class="card card-body mb-3">
+                                           <a href="/sp/sp/<%-data._id%>"> <img src="image/<%= data.image %>" alt="" width="160px" height="160px"></a>
+                                        </div>
+                                  <span class ="ten" id = "ten-1"><%= data.name%></span><br>
+                                  <span class ="gia" id = "gia-1"><%= data.price%></span><br>    
+                                </th> 
+                                  <% }) %>
+                              </tr>
+                      </table>
+                    </div>
+                    <div class="title-sp">
+                      <label>Danh sách sản phẩm tai nghe</label>
+                    </div>
+                  <div class="cuon-1" id =" frame-4">
+                      <table>
+                              <tr>
+                                <% Tainghe.forEach((data)=>{%>
+                                  <th>
+                                        <div class="card card-body mb-3">
+                                           <a href="/sp/sp/<%-data._id%>"> <img src="image/<%= data.image %>" alt="" width="160px" height="160px"></a>
+                                        </div>
+                                  <span class ="ten" id = "ten-1"><%= data.name%></span><br>
+                                  <span class ="gia" id = "gia-1"><%= data.price%></span><br>    
+                                </th> 
+                                  <% }) %>
+                              </tr>
+                      </table>
+                    </div>
+                    <div class="title-sp">
+                      <label>Danh sách sản phẩm ổ cứng</label>
+                    </div>
+                  <div class="cuon-1" id =" frame-5">
+                      <table>
+                              <tr>
+                                <% Ocung.forEach((data)=>{%>
+                                  <th>
+                                        <div class="card card-body mb-3">
+                                           <a href="/sp/sp/<%-data._id%>"> <img src="image/<%= data.image %>" alt="" width="160px" height="160px"></a>
+                                        </div>
+                                  <span class ="ten" id = "ten-1"><%= data.name%></span><br>
+                                  <span class ="gia" id = "gia-1"><%= data.price%></span><br>    
+                                </th> 
+                                  <% }) %>
+                              </tr>
+                      </table>
+                    </div>
+</div>
+</div>
+</div>
+<% include template/popup %>
+    <!-- footer starts here-->
+<div id = "container_inner_footer">
+<% include template/footer %>
+</div>
+</div>
+<% include template/body2 %>

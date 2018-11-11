@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- <script src="js/jquery.js"></script> -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/popup.js"></script>
+    <link rel="stylesheet" href="css/popup.css">
+    <title>Document</title>
+</head>
+<body>
+    <button id="chat">Chat</button>
+    <div class="pop-up-box">
+        <div class="pop-up-head">
+            <div class="pop-up-left">Admin</div>
+            <div class="pop-up-right"><div id="close">&#10005</div></div>
+        </div>
+        <div class="pop-up-mess">
+            <ul class="ChatLog">
+                    <li class="ChatLog__entry">
+                        <div class="ChatLog__avatar">A</div>
+                            <p class="ChatLog__message">Chào mừng bạn đến với MOKI.VN</p>
+                    </li>
+
+                </ul>
+        </div>
+        <div class="pop-up-footer">
+            <input name="message" id="mess" placeholder="Nhập tin nhắn...">
+            <button id="btnSend">SEND</button>
+        </div>
+    </div>
+</body>
+</html>

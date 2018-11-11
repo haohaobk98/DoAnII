@@ -1,0 +1,19 @@
+<% var message = '' %>
+<% include template/body1 %>
+<div class="form-format">
+<h2 class="page-header">Account Login</h2>
+<%- message %>
+<form method="POST" action="/login">
+  <div class="form-group">
+    <label>Username</label>
+    <input type="text" class="form-control" name="username" placeholder="Username">
+  </div>
+  <div class="form-group">
+    <label>Password</label>
+    <input type="password" class="form-control" name="password" placeholder="Password">
+  </div>
+  <a class="forgotPS" href="/forgetPassword">Quên mật khẩu</a>
+  <input type="submit" class="form-button" value="Submit">
+</form>
+</div>
+<% include template/body2 %>
