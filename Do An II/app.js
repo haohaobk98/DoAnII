@@ -298,14 +298,43 @@ app.post('/resetPassword',function(req,res){
     } 
 });
 
+function change_alias(alias) {
+    var str = alias;
+    str = str.toLowerCase();
+    str = str.replace(/ầ|ấ|ậ|ẩ|ẫ/g,"â");
+    str = str.replace(/ằ|ắ|ặ|ẳ|ẵ/g,"ă");
+    str = str.replace(/à|á|ạ|ả|ã|â|ă/g,"a"); 
+    str = str.replace(/ề|ế|ệ|ể|ễ/g,"ê")
+    str = str.replace(/è|é|ẹ|ẻ|ẽ|ê/g,"e"); 
+    str = str.replace(/ì|í|ị|ỉ|ĩ/g,"i"); 
+    str = str.replace(/ờ|ớ|ợ|ở|ỡ/g,"ơ");
+    str = str.replace(/ồ|ố|ộ|ổ|ỗ/g,"ô");
+    str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ơ/g,"o"); 
+    str = str.replace(/ừ|ứ|ự|ử|ữ/g,"ư");
+    str = str.replace(/ù|ú|ụ|ủ|ũ|ư/g,"u"); 
+    str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g,"y"); 
+    str = str.replace(/đ/g,"d");
+    str = str.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g," ");
+    str = str.replace(/ + /g," ");
+    str = str.trim(); 
+    return str;
+}
 // Hàm tìm kiếm
 function search_name(X,Y){
-    var X1 = X.toUpperCase();
-    var Y1 = Y.toUpperCase();
-var chuoi1 = X1.split(" ");
-var chuoi2 = Y1.split(" ");
+    var X1 = X.toLowerCase();
+    var Y1 = Y.toLowerCase();
+    var X2 = change_alias(X1);
+   var Y2 =  change_alias(Y1);
+var chuoi1 = X2.split(" ");
+var chuoi2 = Y2.split(" ");
     var lenX = chuoi1.length;
     var lenY = chuoi2.length;
+    // for(var i=0;i<lenX ;i++){
+    //     change_alias(X1[i]);
+    // }
+    // for(var i=0;i<lenY ;i++){
+    //     change_alias(Y1[i]);
+    // }
     var a = new Array(lenX+1);
     for(var i =0 ;i<lenX+1;i++){
         a[i] = new Array(lenY+1)
@@ -553,6 +582,192 @@ app.get('/logout', function (req, res) {
     res.redirect('/');
 });
 
+//dell product
+app.get('/Maytinh/dell',function(req,res){
+    var MongoClient = require("mongodb").MongoClient;
+    var url = "mongodb://localhost:27017/";
+    MongoClient.connect(url,function(err,db){
+        if(err) throw err;
+        var dbo = db.db("mydb");
+        dbo.collection("máy tính").find({label:"Dell"}).toArray(function(err,result){
+            if(err) throw err;
+            res.render("dellComputer",{data:result}); 
+            db.close();
+                })
+    })
+})
+// filter theo product
+app.post("/maytinh/filter",function(req,res){
+    //tao bien de luu gia tri nguoi dung vhon de loc
+    var filterPrice = req.body.filterPrice;
+    var filterState = req.body.filterState;
+    var filterWeight = req.body.filterWeight;
+    console.log(filterPrice);
+    console.log(filterState);
+    console.log(filterWeight);
+    var lc1 = "Thấp hơn 15 triệu";
+    var lc2 = "Lớn hơn 15 triệu";
+    var MongoClient = require("mongodb").MongoClient;
+    var url = "mongodb://localhost:27017";
+    if((filterPrice.valueOf()=="lckhac".valueOf())&&(filterState.valueOf() == "lckhac".valueOf())&&(filterWeight.valueOf() == "lckhac".valueOf())){
+        MongoClient.connect(url,function(err,db){
+            if(err) throw err;
+            var dbo = db.db("mydb");
+            dbo.collection("máy tính").find({}).toArray(function(err,result){
+                if(err) throw err;
+                console.log(result);
+                res.render("filterProducts",{data:result});
+                db.close();
+            })
+        })
+    }
+
+   else if((filterPrice == "lckhac")&&(filterState == "lckhac")&&(filterWeight != "lckhac")){
+        MongoClient.connect(url,function(err,db){
+            if(err) throw err;
+            var dbo = db.db("mydb");
+            dbo.collection("máy tính").find({weight : filterWeight}).toArray(function(err,result){
+                if(err) throw err;
+                console.log(result);
+                res.render("filterProducts",{data:result});
+                db.close();
+            })
+        })
+    }
+
+    else if((filterPrice.valueOf() == "lckhac".valueOf())&&(filterState.valueOf() != "lckhac".valueOf())&&(filterWeight.valueOf() == "lckhac".valueOf())){
+        MongoClient.connect(url,function(err,db){
+            if(err) throw err;
+            var dbo = db.db("mydb");
+            dbo.collection("máy tính").find({state : filterState}).toArray(function(err,result){
+                if(err) throw err;
+                console.log(result);
+                res.render("filterProducts",{data:result});
+                db.close();
+            })
+        })
+    }
+
+    else if((filterPrice.valueOf() == "lckhac".valueOf())&&(filterState.valueOf() != "lckhac".valueOf())&&(filterWeight.valueOf() != "lckhac".valueOf())){
+        MongoClient.connect(url,function(err,db){
+            if(err) throw err;
+            var dbo = db.db("mydb");
+            dbo.collection("máy tính").find({state : filterState,weight : filterWeight}).toArray(function(err,result){
+                if(err) throw err;
+                console.log(result);
+                res.render("filterProducts",{data:result});
+                db.close();
+            })
+        })
+    }
+
+  
+    else if((filterPrice.valueOf() == lc1.valueOf())&&(filterState.valueOf() == "lckhac".valueOf())&&(filterWeight.valueOf() == "lckhac".valueOf())){
+        MongoClient.connect(url,function(err,db){
+            if(err) throw err;
+            var dbo = db.db("mydb");
+            dbo.collection("máy tính").find({price:{$lt:"15000000"}}).toArray(function(err,result){
+                if(err) throw err;
+                console.log(result);
+                res.render("filterProducts",{data:result});
+                db.close();
+            })
+        })
+    }
+
+    else if((filterPrice.valueOf() == lc1.valueOf())&&(filterState.valueOf() == "lckhac".valueOf())&&(filterWeight.valueOf() != "lckhac".valueOf())){
+        MongoClient.connect(url,function(err,db){
+            if(err) throw err;
+            var dbo = db.db("mydb");
+            dbo.collection("máy tính").find({price:{$lt:"15000000"},weight : filterWeight}).toArray(function(err,result){
+                if(err) throw err;
+                console.log(result);
+                res.render("filterProducts",{data:result});
+                db.close();
+            })
+        })
+    }
+
+    else if((filterPrice.valueOf() == lc1.valueOf())&&(filterState.valueOf() != "lckhac".valueOf())&&(filterWeight.valueOf() == "lckhac".valueOf())){
+        MongoClient.connect(url,function(err,db){
+            if(err) throw err;
+            var dbo = db.db("mydb");
+            dbo.collection("máy tính").find({price:{$lt:"15000000"},state : filterState}).toArray(function(err,result){
+                if(err) throw err;
+                console.log(result);
+                res.render("filterProducts",{data:result});
+                db.close();
+            })
+        })
+    }
+
+    else if((filterPrice.valueOf() == lc1.valueOf())&&(filterState.valueOf() != "lckhac".valueOf())&&(filterWeight.valueOf() != "lckhac".valueOf())){
+        MongoClient.connect(url,function(err,db){
+            if(err) throw err;
+            var dbo = db.db("mydb");
+            dbo.collection("máy tính").find({price:{$lt:"15000000"},state : filterState,weight : filterWeight}).toArray(function(err,result){
+                if(err) throw err;
+                console.log(result);
+                res.render("filterProducts",{data:result});
+                db.close();
+            })
+        })
+    }
+
+    else if((filterPrice.valueOf() == lc2.valueOf())&&(filterState.valueOf() == "lckhac".valueOf())&&(filterWeight.valueOf() == "lckhac".valueOf())){
+        MongoClient.connect(url,function(err,db){
+            if(err) throw err;
+            var dbo = db.db("mydb");
+            dbo.collection("máy tính").find({price:{$gt:"15000000"}}).toArray(function(err,result){
+                if(err) throw err;
+                console.log(result);
+                res.render("filterProducts",{data:result});
+                db.close();
+            })
+        })
+    }
+
+    else if((filterPrice.valueOf() == lc2.valueOf())&&(filterState.valueOf() == "lckhac".valueOf())&&(filterWeight.valueOf() != "lckhac".valueOf())){
+        MongoClient.connect(url,function(err,db){
+            if(err) throw err;
+            var dbo = db.db("mydb");
+            dbo.collection("máy tính").find({price:{$gt:"15000000"},weight : filterWeight}).toArray(function(err,result){
+                if(err) throw err;
+                console.log(result);
+                res.render("filterProducts",{data:result});
+                db.close();
+            })
+        })
+    }
+
+    else if((filterPrice.valueOf() == lc2.valueOf())&&(filterState.valueOf() != "lckhac".valueOf())&&(filterWeight.valueOf() == "lckhac".valueOf())){
+        MongoClient.connect(url,function(err,db){
+            if(err) throw err;
+            var dbo = db.db("mydb");
+            dbo.collection("máy tính").find({price:{$gt:"15000000"},state : filterState}).toArray(function(err,result){
+                if(err) throw err;
+                console.log(result);
+                res.render("filterProducts",{data:result});
+                db.close();
+            })
+        })
+    }
+
+    else if((filterPrice.valueOf() == lc2.valueOf())&&(filterState.valueOf() != "lckhac".valueOf())&&(filterWeight.valueOf() != "lckhac".valueOf())){
+        MongoClient.connect(url,function(err,db){
+            if(err) throw err;
+            var dbo = db.db("mydb");
+            dbo.collection("máy tính").find({price:{$gt:"15000000"},state : filterState,weight : filterWeight}).toArray(function(err,result){
+                if(err) throw err;
+                console.log(result);
+                res.render("filterProducts",{data:result});
+                db.close();
+            })
+        })
+    }
+  
+    
+})
 io.on("connection",function(socket){
 socket.on("gui-comment",function(data){
     var  info = data.split("ooo");
@@ -932,7 +1147,7 @@ MongoClient.connect(url, function(err, db) {
                         Chuot: res1.reverse(),
                         Banphim:res2.reverse(),
                         Tainghe:res3.reverse(),
-                        Ocung:res4.reverse()
+                        Ocung:res4.reverse(),
                     })                  
       })
     });

@@ -36,7 +36,7 @@ body{
 	padding:1em 2em;
 	overflow: hidden;
 	height:35%;
-	background-color:gray;
+	background-color:#679bef;
 	border-radius:5px;
 	}
 	#header-inner1-title{
@@ -139,7 +139,7 @@ body{
 		background-color: #e3e7ed;
 		
 		margin-top: 0px;
-		height: 580px;
+		height: 400px;
 		border-radius:5px;
 		}
 		#AlphaNav{
@@ -281,3 +281,26 @@ body{
 		font-weight: normal
 		
 	}
+	/* list DELL products */
+	#filterPrice,#filterWeight,#filterState,#filterSubmit{
+		border-radius: 5px;
+		padding:3px;
+	} 
+	#filterSubmit{
+		background-color:#679bef;
+		width:150px;
+		text-align:center;
+		padding:10px;
+		margin-left:285px;
+	}
+	#filter{
+		display:none;
+	}
+
+#filter-wrapper{
+	width:700px;
+	height:350px;
+	border:1px solid black;
+	margin-left:500px;
+	background:#f1f1f1;
+}

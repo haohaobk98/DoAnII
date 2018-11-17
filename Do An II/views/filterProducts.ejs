@@ -1,0 +1,74 @@
+
+<% include template/body1 %>
+<div id = "container">
+    <!-- header starts here-->
+<% include template/header %>
+<div id ="container_inner">
+    <!-- nav starts here-->
+<div id="container_inner_nav">
+<div id="container_inner_nav-inner">
+<% include template/nav %>
+</div>
+</div>
+    <!-- content starts here -->
+<div id = "container_inner_content">
+<div id ="container_inner_content-inner">
+    <div class="title-sp">
+        Danh sách sản phẩm
+       </div>
+       <div id="filterProduct">
+        <p> Lọc theo Sản Phẩm <i class="fa fa-angle-down" style="margin-right:660px"></i></p>
+       </div>
+      <dialog id="filter-wrapper">
+       
+          
+            <form action="/maytinh/filter" method="POST">
+             <label>Theo giá:</label>
+             <select name="filterPrice" id="filterPrice">
+                     <option value="lckhac"></option>
+                 <option value="Thấp hơn 15 triệu">Thấp hơn 15 triệu</option>
+                 <option value="Lớn hơn 15 triệu">Lớn hơn 15 triệu</option>
+             </select> &nbsp &nbsp &nbsp &nbsp
+             <label>Theo tình trạng</label>
+             <select name="filterState" id="filterState">
+                 <option value="lckhac"></option>
+                 <option value="Còn mới">Còn mới</option>
+                 <option value="Đã qua sử dụng">Đã qua sử dụng</option>
+             </select>&nbsp &nbsp &nbsp &nbsp
+             <label>Theo khối lượng</label>
+             <select name="filterWeight" id="filterWeight">
+                     <option value="lckhac"></option>
+                     <option value="0.5kg đến 1kg">0.5kg đến 1kg</option>
+                     <option value="1kg đến 2kg">1kg đến 2kg</option>
+                     <option value="3kg đến  4kg ">3kg đến  4kg </option>
+                     <option value="4kg đến 5kg ">4kg đến 5kg </option>
+                     <option value="trên 5kg">trên 5kg</option>
+             </select>
+             <input type="submit" value="Lọc" id="filterSubmit">
+         </form>
+
+      </dialog>
+       <div class="cuon-1" id =" frame-1">
+         <table class="table-listproduct">
+                 <tr class="table-listproduct">
+                     <% if(data.length==0){%>
+                      <h2>Không có sản phẩm nào </h2>
+                   <% } else {  data.forEach((da)=>{%>
+                     <th style="display:inline-block;" class="table-listproduct">
+                         <a href="/sp/sp/<%= da._id%>"><img id="0" src="/image/<%= da.image%>" width="150px" height="150px"></a><br>
+                         <span class ="ten" id = "ten-1"><%= da.name%></span><br>
+                         <span class ="gia" id = "gia-1"><%= da.price%></span><br>    
+                     </th>
+                   <% })} %>
+                 </tr>
+         </table>
+       </div>
+</div>
+</div>
+<% include template/popup %>
+    <!-- footer starts here-->
+<div id = "container_inner_footer">
+<% include template/footer %>
+</div>
+</div>
+<% include template/body2 %>

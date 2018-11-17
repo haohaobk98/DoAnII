@@ -1,146 +1,409 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>MOKI</title>
-    <link rel="stylesheet" href="/css/themsanpham.css">
-    <link rel="stylesheet" href="/css/footer.css">
-    <link rel="stylesheet" href="/css/header.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <style>
-      img {
-        width: 150px;
-        height: 150px;
-      }
-    </style>
-</head>
-<body>
-  <% include template/header %>
-      <div class="row">
-        <div class="column side" id="menuleft">
-          <div id="sidebar">
-            <ul>
-                <li><a class="active" href="/">Trang chinh</a></li>
-                <li><a href="#news">Tài khoản</a></li>
-                <li><a href="#about">Sản phẩm</a></li>
-                <li><a href="#contact">Hỗ trợ bán hàng</a></li>
-                <li><a href="#about">Trung tâm hỗ trợ</a></li>
-                <li><a href="#about">Quản lý bán hàng</a></li>
-                <li><a href="#about">Shop</a></li>
-             </ul>
-         </div>
-        </div>
-
-        <div class="column middle">
-          <% if(err){ %>
-            <% err.forEach(function(error){%>
-          <ul style="list-style: none;">
-            <li><%- error.msg%></li>
-          </ul>
-          <%})%>
-            <%}%>
-            <div id="wrapper-addsp">
-                <div class="container">
-                    <div class="row">
-                      <div class="wrapper-image">
-
-                        <h1 class="text-center display-4 my-4">Hình ảnh sản phẩm</h1>
-                        <hr>
-                        
-                                <img src="/image/<%= data.image %>" alt="">
-                                
-
+<% if(user) { %>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>MOKI</title>
+        <link rel="stylesheet" href="/css/template.css">
+        <link rel="stylesheet" href="/css/themsanpham.css">
+        <link rel="stylesheet" href="/css/footer.css">
+        <link rel="stylesheet" href="/css/header.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+        <style>
+           img {
+            width: 150px;
+            height: 150px;
+          }
+          #btn-report,#send-report{
+              padding:5px;
+              border:1px solid #000;
+              border-radius:5px;
+              margin-bottom:5px;
+          }
+          .text-report{
+              width:200px;
+              display:none;
+          }
+         
+          #textarea{
+              padding:5px;
+          }
+          #send-report{
+              margin-left:58px;
+          }
+          #user-infomation{
+              display:none;
+          }
+          #showphone{
+              padding:10px 5px;
+              width:380px;
+              text-align:center;
+              background-color:#679bef;
+              border-radius:5px;
+              font-weight:bold;
+          }
+          @media screen and (max-width : 1000px){
+              th {
+                  display:block;
+              }
+          }
+      </style>
+    </head>
+    <body>
+      <% include template/header %>
+      
+          <div class="row">
+            <div class="column side" id="menuleft">
+              <div id="sidebar">
+                <ul>
+                    <li><a class="active" href="/">Trang chinh</a></li>
+                    <li><a href="#news">Tài khoản</a></li>
+                    <li><a href="#about">Sản phẩm</a></li>
+                    <li><a href="#contact">Hỗ trợ bán hàng</a></li>
+                    <li><a href="#about">Trung tâm hỗ trợ</a></li>
+                    <li><a href="#about">Quản lý bán hàng</a></li>
+                    <li><a href="#about">Shop</a></li>
+                 </ul>
+             </div>
+            </div>
+    
+            <div class="column middle">
+              <% if(err){ %>
+                <% err.forEach(function(error){%>
+              <ul style="list-style: none;">
+                <li><%- error.msg%></li>
+              </ul>
+              <%})%>
+                <%}%>
+                <div id="wrapper-addsp">
+                    <div class="container">
+                        <div class="row">
+                          <div class="wrapper-image">
+    
+                            <h1 class="text-center display-4 my-4">Hình ảnh sản phẩm</h1>
+                            <hr>
+                            
+                                    <img src="/image/<%= data.image %>" alt="">
+                                    
+    
+                          </div>
+                        </div>
+                </div>
+                <form action="/updatesp" method="POST">
+                  <div class="add">
+                  <input type="text" id ="textinput" name ="filename" value="<%= data._id%>" hidden>
+                    <div style="display:inline;">
+                    <div style="display:flex;">
+                        <p id="name">Tên sản phẩm</p>
+                        <input type="text" id ="textinput" name ="nameproduct" value="<%= data.name %>">
+                   </div> 
+                   <div style="display:flex;">
+                       <p id = "description">Mô tả sản phẩm</p>
+                       <textarea cols="50" rows="50" id="textarea" name="describleproduct"><%= data.describle%></textarea>
+                   </div>         
+                    <div>
+                        <div id="list">Danh mục</div>
+                        <div class="custom-select" >
+                            <select name="attached">
+                                    <option value="<%= data.attached%>"><%= data.attached%></option>
+                            </select>
+                        </div>
+                    </div>
+              
+                        <div id="nhanhieu">Nhãn hiệu</div>
+                        <div class="custom-select" >
+                             <select name="label">
+                                     <option value = "<%= data.label%>"><%= data.label%></option>
+                                     <option value="Asus">Asus</option>
+                                     <option value="Dell">Dell</option>
+                                     <option value="HP">HP</option>
+                                     <option value="Lenovo">Lenovo</option>
+                                     <option value="Acer">Acer</option>
+                             </select>
+                    </div>
+                    <div>
+                       <div id="khoiluong">Khối lượng</div>
+                       <div class="custom-select" >
+                             <select name="weight">
+                                  <option value = "<%= data.weight%>"><%= data.weight%></option>
+                                  <option value="0.5kg đến 1kg">0.5kg đến 1kg</option>
+                                  <option value="1kg đến 2kg">1kg đến 2kg</option>
+                                  <option value="3kg đến  4kg ">3kg đến  4kg </option>
+                                  <option value="4kg đến 5kg ">4kg đến 5kg </option>
+                                  <option value="trên 5kg">trên 5kg</option>
+                             </select>
+                       </div>
+                    </div>
+                      <div id="trangthai">Trạng thái </div>
+                      <div class="custom-select" >
+                        <select name="state">
+                            <option value = "<%= data.state%>"><%= data.state%></option>
+                             <option value="Còn mới">Còn mới</option>
+                             <option value="Đã qua sử dụng">Đã qua sử dụng</option>
+                        </select>
+                      </div>
+    
+                        <div style="display:flex;">
+                         <p id = "gia">Giá</p>
+                         <input type="number" id="giatext" name="price" value="<%= data.price%>">
+                        </div>
+                      </div>
+                      <div style="display:flex">
+                          <input type="text" value="<%= user.username%>" name ="nameuser" hidden>
+                            <input  class="button button2" type="submit" name="Chỉnh sửa" value="Chỉnh sửa">
                       </div>
                     </div>
-            </div>
-            <form action="/updatesp" method="POST">
-              <div class="add">
-              <input type="text" id ="textinput" name ="filename" value="<%= data._id%>" hidden>
-                <div style="display:inline;">
-                <div style="display:flex;">
-                    <p id="name">Tên sản phẩm</p>
-                    <input type="text" id ="textinput" name ="nameproduct" value="<%= data.name %>">
-               </div> 
-               <div style="display:flex;">
-                   <p id = "description">Mô tả sản phẩm</p>
-                   <textarea cols="50" rows="50" id="textarea" name="describleproduct"><%= data.describle%></textarea>
-               </div>         
-                <div>
-                    <div id="list">Danh mục</div>
-                    <div class="custom-select" >
-                        <select name="attached">
-                                <option value="<%= data.attached%>"><%= data.attached%></option>
-                        </select>
-                    </div>
+                    </form>
+                    <form action="/delete?_method=DELETE" method="POST">
+                            <input type="text" value="<%= user.username%>" name ="nameuser" hidden>
+                            <input   type="text" value="<%= data.image%>" name ="delete" hidden>
+                            <input   type="text" value="<%= data.attached%>" name ="delete1" hidden>
+                            <input  class="button button4" type="submit" name="Xóa sản phẩm" value="Xóa sản phẩm" >
+                 
+                       </form>
                 </div>
+                </div>
+                </div>
+           
+         
+            <div id ="san-pham">
+              <div class="container">
+                      <table class="row">
+                          <tr>
+                       <th id = "left"> <div class="col-sm-4">
+                               
+                                    <div class="card card-body mb-3">
+                                  
+                                        <img id="image"src="/image/<%= data.image %>" alt="" width="250px" height="250px">
+                                 
+                                    </div><br>
+                                    <!-- <div id="report">
+                                    <button id="btn-report">report sản phẩm</button>
+      
+                                    <% if(user) { %>
+                                      <div class="text-report">
+                                          <form method="POST" action="">
+                                              <label style="font-weight:normal;">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspLí do report:</label>
+                                              <textarea id="textarea" rows="10" cols="35"></textarea>
+                                              <input type="button" value="send" id="send-report">
+                                          </form>
+                                      </div>
+                                      <div id="thanks-report" style="display:none;">
+                                          <p>Cảm ơn sự góp ý của bạn!</p>
+                                      </div>
+                                    <% } %>
+                                    <% if(!user){ %>
+                                      <div class="text-report" style="margin-top:5px;margin-left:23px;">Bạn hãy đăng nhập để report về sản phẩm</div>
+                                    <% }%>
+                                  </div> -->
+                                      
+                        
+                        </div></th>
+                        <th id="right">
+                            <div class="col-sm-6">
+                          <label>Tên sản phẩm: </label>
+                          <span id="name"><%- data.name %></span><hr>
+                          <label>Giá sản phẩm: </label>
+                          <span id="price"><%- data.price %></span><br>
+                          <label>Nhãn hiệu: </label>
+                          <span id="label"><%- data.label %> </span><hr>
+                          <label>Trạng thái: </label>
+                          <span id="state"><%- data.state %> </span><br>
+                          <label>Danh mục: </label>
+                          <span id="attached"><%- data.attached %></span><br>
+                          <label>Khối lượng: </label>
+                          <span id="weight"><%- data.weight %></span><br>
+                          <label>Đăng bởi: </label>
+                          
+                        </div>
+                      </th>
+                      </tr>
+                      </table>
+                    </div>
+              <div class="option">
+                  <ul>
+                      <li onclick="mota()">Mô tả</li>
+                      <li onclick="binhluan()">Đánh giá/Bình luận</li>
+                  </ul>
+              </div>
+              <textarea id="mota" cols="100" rows="20" style="border: none;"><%-data.describle %></textarea>
+             </div>
           
-                    <div id="nhanhieu">Nhãn hiệu</div>
-                    <div class="custom-select" >
-                         <select name="label">
-                                 <option value = "<%= data.label%>"><%= data.label%></option>
-                                 <option value="Asus">Asus</option>
-                                 <option value="Dell">Dell</option>
-                                 <option value="HP">HP</option>
-                                 <option value="Lenovo">Lenovo</option>
-                                 <option value="Acer">Acer</option>
-                         </select>
-                </div>
-                <div>
-                   <div id="khoiluong">Khối lượng</div>
-                   <div class="custom-select" >
-                         <select name="weight">
-                              <option value = "<%= data.weight%>"><%= data.weight%></option>
-                              <option value="0.5kg đến 1kg">0.5kg đến 1kg</option>
-                              <option value="1kg đến 2kg">1kg đến 2kg</option>
-                              <option value="3kg đến  4kg ">3kg đến  4kg </option>
-                              <option value="4kg đến 5kg ">4kg đến 5kg </option>
-                              <option value="trên 5kg">trên 5kg</option>
-                         </select>
-                   </div>
-                </div>
-                  <div id="trangthai">Trạng thái </div>
-                  <div class="custom-select" >
-                    <select name="state">
-                        <option value = "<%= data.state%>"><%= data.state%></option>
-                         <option value="Còn mới">Còn mới</option>
-                         <option value="Đã qua sử dụng">Đã qua sử dụng</option>
-                    </select>
-                  </div>
-
-                    <div style="display:flex;">
-                     <p id = "gia">Giá</p>
-                     <input type="number" id="giatext" name="price" value="<%= data.price%>">
-                    </div>
-                  </div>
-                  <div style="display:flex">
-                      <input type="text" value="<%= user.username%>" name ="nameuser" hidden>
-                        <input  class="button button2" type="submit" name="Chỉnh sửa" value="Chỉnh sửa">
-                  </div>
-                </div>
-                </form>
-                <form action="/delete?_method=DELETE" method="POST">
-                        <input type="text" value="<%= user.username%>" name ="nameuser" hidden>
-                        <input   type="text" value="<%= data.image%>" name ="delete" hidden>
-                        <input   type="text" value="<%= data.attached%>" name ="delete1" hidden>
-                        <input  class="button button3" type="submit" name="Xóa sản phẩm" value="Xóa sản phẩm" >
-             
-                   </form>
-            </div>
-            </div>
-            </div>
-        
- 
      
-      <% include template/footer %>
+         
+          <% include template/footer %>
+        
+          <script src="/js/themsanpham.js"></script>
+          <script src="/js/jqurey.js"></script>
+    </body>
+    <script>
+    function uploadimage(){
+     $("#taianh").attr("src",$("#ta").val());
+    }
+    </script>
+    </html> 
+<% } else { %>
+    <!doctype html>
+    <html>
+        <head>
+            <title>
+                app read books
+            </title>
+            <script src="/socket.io/socket.io.js"></script>
+            <script src="/js/jqurey.js"></script>
+            <script src="/js/chucnang.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+            <link rel="stylesheet" href="/css/footer.css" type="text/css" >   
+            <link rel="stylesheet" href="/css/template.css" type="text/css" >  
+            <link rel="stylesheet" href="/css/body.css" type="text/css" >  
+            <link rel="stylesheet" href="/css/DinhDang.css" type="text/css" >  
+            <link rel="stylesheet" href="/css/bootstrap.css" type="text/css" > 
+            <style>
+                #btn-report,#send-report{
+                    padding:5px;
+                    border:1px solid #000;
+                    border-radius:5px;
+                    margin-bottom:5px;
+                }
+                .text-report{
+                    width:200px;
+                    display:none;
+                }
+               
+                #textarea{
+                    padding:5px;
+                }
+                #send-report{
+                    margin-left:58px;
+                }
+                #user-infomation{
+                    display:none;
+                }
+                #showphone{
+                    padding:10px 5px;
+                    width:380px;
+                    text-align:center;
+                    background-color:#679bef;
+                    border-radius:5px;
+                    font-weight:bold;
+                }
+                .tooltip{
+                    visibility: hidden;
+                     width: 200px;
+                   background-color: black;
+                   color: #fff;
+                  text-align: center;
+                 border-radius: 6px;
+                padding: 5px 0;
+                  /* Position the tooltip */
+                   position: absolute;
+                   z-index: 1;
+                }
+                #shop-link:hover .tooltip{
+                    visibility: visible;
+                }
+                @media screen and (max-width : 1000px){
+                    th {
+                        display:block;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+    <div id = "container">
+        <!-- header starts here-->
+    <% include template/header %>
+    <div id ="container_inner">
+        <!-- nav starts here-->
+    <div id="container_inner_nav">
+    <div id="container_inner_nav-inner">
+    <% include template/nav %>
+    </div>
+    </div>
+        <!-- content starts here -->
+    <div id = "container_inner_content">
+    <div id ="container_inner_content-inner">
+        <div id ="san-pham">
+            <div class="container">
+                    <table class="row">
+                        <tr>
+                     <th id = "left"> <div class="col-sm-4">
+                             
+                                  <div class="card card-body mb-3">
+                                
+                                      <img id="image"src="/image/<%= data.image %>" alt="" width="250px" height="250px">
+                               
+                                  </div><br>
+                                  <!-- <div id="report">
+                                  <button id="btn-report">report sản phẩm</button>
     
-      <script src="/js/themsanpham.js"></script>
-      <script src="/js/jqurey.js"></script>
-</body>
-<script>
-function uploadimage(){
- $("#taianh").attr("src",$("#ta").val());
-}
-</script>
-</html> 
+                                  <% if(user) { %>
+                                    <div class="text-report">
+                                        <form method="POST" action="">
+                                            <label style="font-weight:normal;">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspLí do report:</label>
+                                            <textarea id="textarea" rows="10" cols="35"></textarea>
+                                            <input type="button" value="send" id="send-report">
+                                        </form>
+                                    </div>
+                                    <div id="thanks-report" style="display:none;">
+                                        <p>Cảm ơn sự góp ý của bạn!</p>
+                                    </div>
+                                  <% } %>
+                                  <% if(!user){ %>
+                                    <div class="text-report" style="margin-top:5px;margin-left:23px;">Bạn hãy đăng nhập để report về sản phẩm</div>
+                                  <% }%>
+                                </div> -->
+                                    
+                      
+                      </div></th>
+                      <th id="right">
+                          <div class="col-sm-6">
+                        <label>Tên sản phẩm: </label>
+                        <span id="name"><%- data.name %></span><hr>
+                        <label>Giá sản phẩm: </label>
+                        <span id="price"><%- data.price %></span><br>
+                        <label>Nhãn hiệu: </label>
+                        <span id="label"><%- data.label %> </span><hr>
+                        <label>Trạng thái: </label>
+                        <span id="state"><%- data.state %> </span><br>
+                        <label>Danh mục: </label>
+                        <span id="attached"><%- data.attached %></span><br>
+                        <label>Khối lượng: </label>
+                        <span id="weight"><%- data.weight %></span><br>
+                      </div>
+                    </th>
+                    </tr>
+                    </table>
+                  </div>
+            <div class="option">
+                <ul>
+                    <li onclick="mota()">Mô tả</li>
+                    <li onclick="binhluan()">Đánh giá/Bình luận</li>
+                </ul>
+            </div>
+            <textarea id="mota" cols="100" rows="20" style="border: none;"><%-data.describle %></textarea>
+           </div>
+           <%if(user){%>
+           <div id="binhluan">
+                <label><%-user.name%>: </label>
+                <textarea rows="5" cols="50" name="description" placeholder="Comment" id = "Comment"></textarea>
+                <input type="button" id="send" value="Send">
+                <textarea rows="5" cols="50" name="description" placeholder="Comment" id = "showcomment" disabled><%-data.comment%></textarea>
+           </div>
+           <%}%>
+           <%if(!user){%>
+               <div style="display:none;">Bạn hãy đăng nhập để bình luận về sản phẩm</div>
+            <%}%>
+    </div>
+    
+    </div>
+    </div>
+    
+    <% include template/footer %>
+    </div>
+    </div>
+    <% include template/body2 %>
+<%}%>

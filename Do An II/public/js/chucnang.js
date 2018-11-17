@@ -1,4 +1,4 @@
-var socket = io("http://localhost:8084");
+var socket = io("http://localhost:8090");
  socket.on("gui-comment",function(data){
      $("#showcomment").val(data);
        $("#Comment").val("");
@@ -84,3 +84,8 @@ function  mota(){
     $("#mota").show();
     $("#binhluan").hide();
 }
+$(document).ready(function(){
+    $("#filterProduct").click(function(){
+        $("#filter-wrapper").slideToggle();
+    })
+})
