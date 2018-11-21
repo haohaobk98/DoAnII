@@ -134,16 +134,18 @@ body{
 			margin-left:0;
 		}
 		#nav-inner{
+		position: relative;
+		top:-12px;
 		padding:0 0.8em;
 		width:80%;
 		background-color: #e3e7ed;
 		
 		margin-top: 0px;
-		height: 400px;
+		height: 330px;
 		border-radius:5px;
 		}
 		#AlphaNav{
-			overflow-y: scroll;
+			/*overflow-y: scroll;*/
 			height: 90%;
 		}
 		#nav-inner ul li{
@@ -286,6 +288,10 @@ body{
 		border-radius: 5px;
 		padding:3px;
 	} 
+	.filterSelect{
+		border-radius: 5px;
+		padding:3px;
+	}
 	#filterSubmit{
 		background-color:#679bef;
 		width:150px;
@@ -296,11 +302,65 @@ body{
 	#filter{
 		display:none;
 	}
-
+	.space{
+		padding-left:200px;
+	}
+	.space1{
+		padding-left:80px;
+	}
 #filter-wrapper{
 	width:700px;
-	height:350px;
+	height:400px;
 	border:1px solid black;
 	margin-left:500px;
 	background:#f1f1f1;
 }
+.slidecontainer{
+	width:100%;
+	margin:6px 0;
+}
+.slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 20px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+.slider:hover{
+	opacity:1;
+}
+.slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+	background: #4CAF50;
+	border-radius:50%;
+    
+}
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: #4CAF50;
+	cursor: pointer;
+	border-radius:50%;
+}
+
+/* them san pham header */
+.header-inner2-form-input{
+	width:600px;
+	height:40px;
+	border:1px solid gray;
+	border-radius:10px;
+	}
+	.header-inner2-form-button{
+	
+	
+	border:none;
+	background:transparent;
+
+	left:-55px;
+	}

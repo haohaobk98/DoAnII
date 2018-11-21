@@ -7,7 +7,7 @@
 	padding:1em 2em;
 	overflow: hidden;
 	height:50%;
-	background-color:gray;
+	background-color:#679bef;
 	
 	}
 	#header-inner1-title{
@@ -65,18 +65,21 @@
 	margin-left:500px;
 	padding-top:0.2em;
 	}
+
 	.header-inner2-form-input{
-	width:400px;
-	height:40px;
-	border:1px solid gray;
-	border-radius:5px;
-	}
-	.header-inner2-form-button{
-	border:1px solid gray;
-	border-radius:5px;
-	position:relative;
-	bottom:-0.2em;
-	}
+		width:600px;
+		height:40px;
+		border:1px solid gray;
+		border-radius:10px;
+		}
+		.header-inner2-form-button{
+		
+		position:relative;
+		border:none;
+		background:transparent;
+	
+		left:-48px;
+		}
 	.header-inner2-link{
 		display: flex;
 		justify-content:flex-end;

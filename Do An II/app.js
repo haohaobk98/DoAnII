@@ -367,9 +367,9 @@ MongoClient.connect(url, function(err, db) {
   dbo.collection("tempSP").find().toArray( function(err, result) {
     if (err) throw err;
     for(var i = 0;i<result.length;i++){
-    if(search_name(result[i].name, key)>0){
+    if(search_name(result[i].name +" "+result[i].describle, key)>0){
         data.push(result[i]);
-        data_num.push(search_name(result[i].name, key));
+        data_num.push(search_name(result[i].name+" "+result[i].describle, key));
     }
 }
      if(data.length!=0){
@@ -476,6 +476,7 @@ app.get("/userinformation/:id", function(req, res){
 // chỉnh sửa thông tin người dùng
 app.get('/user/modifier/:id',function(req,res){
     var title = req.params.id;
+    
     var MongoClient = require('mongodb').MongoClient;
     var url = "mongodb://localhost:27017/";
     MongoClient.connect(url,function(err,db){
@@ -483,7 +484,8 @@ app.get('/user/modifier/:id',function(req,res){
         var dbo = db.db("loginapp");
         dbo.collection("users").find({username:title}).toArray(function(err,result){
             if(err) throw err;
-            res.render("modifierUser",{user:result});
+            
+            res.render("modifierUser",{user1:result});
             db.close();
         })
     })
@@ -492,7 +494,8 @@ app.get('/user/modifier/:id',function(req,res){
 // chỉnh sửa thông tin người dùng
 app.post('/user/modifier/:id',function(req,res){
     var title = req.params.id;
-    //check validator
+    console.log(title);
+        //check validator
     var name = req.body.name;
     var email = req.body.email;
     var phone = req.body.phone;
@@ -582,7 +585,7 @@ app.get('/logout', function (req, res) {
     res.redirect('/');
 });
 
-//dell product
+//dell products
 app.get('/Maytinh/dell',function(req,res){
     var MongoClient = require("mongodb").MongoClient;
     var url = "mongodb://localhost:27017/";
@@ -596,178 +599,360 @@ app.get('/Maytinh/dell',function(req,res){
                 })
     })
 })
+// asus products
+app.get('/Maytinh/asus',function(req,res){
+    var MongoClient = require("mongodb").MongoClient;
+    var url = "mongodb://localhost:27017/";
+    MongoClient.connect(url,function(err,db){
+        if(err) throw err;
+        var dbo = db.db("mydb");
+        dbo.collection("máy tính").find({label:"Asus"}).toArray(function(err,result){
+            if(err) throw err;
+            res.render("asusComputer",{data:result}); 
+            db.close();
+                })
+    })
+})
+// lenovo products
+app.get('/Maytinh/lenovo',function(req,res){
+    var MongoClient = require("mongodb").MongoClient;
+    var url = "mongodb://localhost:27017/";
+    MongoClient.connect(url,function(err,db){
+        if(err) throw err;
+        var dbo = db.db("mydb");
+        dbo.collection("máy tính").find({label:"Lenovo"}).toArray(function(err,result){
+            if(err) throw err;
+            res.render("lenovoComputer",{data:result}); 
+            db.close();
+                })
+    })
+})
+
+// HP products
+app.get('/Maytinh/hp',function(req,res){
+    var MongoClient = require("mongodb").MongoClient;
+    var url = "mongodb://localhost:27017/";
+    MongoClient.connect(url,function(err,db){
+        if(err) throw err;
+        var dbo = db.db("mydb");
+        dbo.collection("máy tính").find({label:"HP"}).toArray(function(err,result){
+            if(err) throw err;
+            res.render("hpComputer",{data:result}); 
+            db.close();
+                })
+    })
+})
+
+// Acer products
+app.get('/Maytinh/acer',function(req,res){
+    var MongoClient = require("mongodb").MongoClient;
+    var url = "mongodb://localhost:27017/";
+    MongoClient.connect(url,function(err,db){
+        if(err) throw err;
+        var dbo = db.db("mydb");
+        dbo.collection("máy tính").find({label:"Acer"}).toArray(function(err,result){
+            if(err) throw err;
+            res.render("acerComputer",{data:result}); 
+            db.close();
+                })
+    })
+})
 // filter theo product
-app.post("/maytinh/filter",function(req,res){
-    //tao bien de luu gia tri nguoi dung vhon de loc
-    var filterPrice = req.body.filterPrice;
+app.post("/maytinhdell/filter",function(req,res){
+    //tao bien de luu gia tri nguoi dung chon de loc
+    var filterMinPrice = req.body.filterMinPrice;
+    var filterMaxPrice = req.body.filterMaxPrice;
     var filterState = req.body.filterState;
     var filterWeight = req.body.filterWeight;
-    console.log(filterPrice);
-    console.log(filterState);
-    console.log(filterWeight);
-    var lc1 = "Thấp hơn 15 triệu";
-    var lc2 = "Lớn hơn 15 triệu";
+    var filterRam = req.body.filterRam;
+    var filterHarddisk = req.body.filterHarddisk;
+    var filterTypeharddisk = req.body.filterTypeharddisk;
+    var filterCard = req.body.filterCard;
+    var filterChip = req.body.filterChip;
     var MongoClient = require("mongodb").MongoClient;
-    var url = "mongodb://localhost:27017";
-    if((filterPrice.valueOf()=="lckhac".valueOf())&&(filterState.valueOf() == "lckhac".valueOf())&&(filterWeight.valueOf() == "lckhac".valueOf())){
-        MongoClient.connect(url,function(err,db){
-            if(err) throw err;
-            var dbo = db.db("mydb");
-            dbo.collection("máy tính").find({}).toArray(function(err,result){
-                if(err) throw err;
-                console.log(result);
-                res.render("filterProducts",{data:result});
-                db.close();
-            })
-        })
-    }
+     var url = "mongodb://localhost:27017";
+  var data1 =" ";
 
-   else if((filterPrice == "lckhac")&&(filterState == "lckhac")&&(filterWeight != "lckhac")){
-        MongoClient.connect(url,function(err,db){
-            if(err) throw err;
-            var dbo = db.db("mydb");
-            dbo.collection("máy tính").find({weight : filterWeight}).toArray(function(err,result){
-                if(err) throw err;
-                console.log(result);
-                res.render("filterProducts",{data:result});
-                db.close();
-            })
-        })
-    }
-
-    else if((filterPrice.valueOf() == "lckhac".valueOf())&&(filterState.valueOf() != "lckhac".valueOf())&&(filterWeight.valueOf() == "lckhac".valueOf())){
-        MongoClient.connect(url,function(err,db){
-            if(err) throw err;
-            var dbo = db.db("mydb");
-            dbo.collection("máy tính").find({state : filterState}).toArray(function(err,result){
-                if(err) throw err;
-                console.log(result);
-                res.render("filterProducts",{data:result});
-                db.close();
-            })
-        })
-    }
-
-    else if((filterPrice.valueOf() == "lckhac".valueOf())&&(filterState.valueOf() != "lckhac".valueOf())&&(filterWeight.valueOf() != "lckhac".valueOf())){
-        MongoClient.connect(url,function(err,db){
-            if(err) throw err;
-            var dbo = db.db("mydb");
-            dbo.collection("máy tính").find({state : filterState,weight : filterWeight}).toArray(function(err,result){
-                if(err) throw err;
-                console.log(result);
-                res.render("filterProducts",{data:result});
-                db.close();
-            })
-        })
-    }
-
-  
-    else if((filterPrice.valueOf() == lc1.valueOf())&&(filterState.valueOf() == "lckhac".valueOf())&&(filterWeight.valueOf() == "lckhac".valueOf())){
-        MongoClient.connect(url,function(err,db){
-            if(err) throw err;
-            var dbo = db.db("mydb");
-            dbo.collection("máy tính").find({price:{$lt:"15000000"}}).toArray(function(err,result){
-                if(err) throw err;
-                console.log(result);
-                res.render("filterProducts",{data:result});
-                db.close();
-            })
-        })
-    }
-
-    else if((filterPrice.valueOf() == lc1.valueOf())&&(filterState.valueOf() == "lckhac".valueOf())&&(filterWeight.valueOf() != "lckhac".valueOf())){
-        MongoClient.connect(url,function(err,db){
-            if(err) throw err;
-            var dbo = db.db("mydb");
-            dbo.collection("máy tính").find({price:{$lt:"15000000"},weight : filterWeight}).toArray(function(err,result){
-                if(err) throw err;
-                console.log(result);
-                res.render("filterProducts",{data:result});
-                db.close();
-            })
-        })
-    }
-
-    else if((filterPrice.valueOf() == lc1.valueOf())&&(filterState.valueOf() != "lckhac".valueOf())&&(filterWeight.valueOf() == "lckhac".valueOf())){
-        MongoClient.connect(url,function(err,db){
-            if(err) throw err;
-            var dbo = db.db("mydb");
-            dbo.collection("máy tính").find({price:{$lt:"15000000"},state : filterState}).toArray(function(err,result){
-                if(err) throw err;
-                console.log(result);
-                res.render("filterProducts",{data:result});
-                db.close();
-            })
-        })
-    }
-
-    else if((filterPrice.valueOf() == lc1.valueOf())&&(filterState.valueOf() != "lckhac".valueOf())&&(filterWeight.valueOf() != "lckhac".valueOf())){
-        MongoClient.connect(url,function(err,db){
-            if(err) throw err;
-            var dbo = db.db("mydb");
-            dbo.collection("máy tính").find({price:{$lt:"15000000"},state : filterState,weight : filterWeight}).toArray(function(err,result){
-                if(err) throw err;
-                console.log(result);
-                res.render("filterProducts",{data:result});
-                db.close();
-            })
-        })
-    }
-
-    else if((filterPrice.valueOf() == lc2.valueOf())&&(filterState.valueOf() == "lckhac".valueOf())&&(filterWeight.valueOf() == "lckhac".valueOf())){
-        MongoClient.connect(url,function(err,db){
-            if(err) throw err;
-            var dbo = db.db("mydb");
-            dbo.collection("máy tính").find({price:{$gt:"15000000"}}).toArray(function(err,result){
-                if(err) throw err;
-                console.log(result);
-                res.render("filterProducts",{data:result});
-                db.close();
-            })
-        })
-    }
-
-    else if((filterPrice.valueOf() == lc2.valueOf())&&(filterState.valueOf() == "lckhac".valueOf())&&(filterWeight.valueOf() != "lckhac".valueOf())){
-        MongoClient.connect(url,function(err,db){
-            if(err) throw err;
-            var dbo = db.db("mydb");
-            dbo.collection("máy tính").find({price:{$gt:"15000000"},weight : filterWeight}).toArray(function(err,result){
-                if(err) throw err;
-                console.log(result);
-                res.render("filterProducts",{data:result});
-                db.close();
-            })
-        })
-    }
-
-    else if((filterPrice.valueOf() == lc2.valueOf())&&(filterState.valueOf() != "lckhac".valueOf())&&(filterWeight.valueOf() == "lckhac".valueOf())){
-        MongoClient.connect(url,function(err,db){
-            if(err) throw err;
-            var dbo = db.db("mydb");
-            dbo.collection("máy tính").find({price:{$gt:"15000000"},state : filterState}).toArray(function(err,result){
-                if(err) throw err;
-                console.log(result);
-                res.render("filterProducts",{data:result});
-                db.close();
-            })
-        })
-    }
-
-    else if((filterPrice.valueOf() == lc2.valueOf())&&(filterState.valueOf() != "lckhac".valueOf())&&(filterWeight.valueOf() != "lckhac".valueOf())){
-        MongoClient.connect(url,function(err,db){
-            if(err) throw err;
-            var dbo = db.db("mydb");
-            dbo.collection("máy tính").find({price:{$gt:"15000000"},state : filterState,weight : filterWeight}).toArray(function(err,result){
-                if(err) throw err;
-                console.log(result);
-                res.render("filterProducts",{data:result});
-                db.close();
-            })
-        })
-    }
-  
+var weight = "'" + filterWeight +"'"; 
+var state = "'" + filterState +"'"; 
+var card = "'" + filterCard +"'";
+var chip = "'" + filterChip +"'";
+var ram = "'" + filterRam +"'";
+var harddisk = "'" + filterHarddisk +"'";
+var typeharddisk = "'" + filterTypeharddisk +"'";
+  if(filterWeight != "lckhac") data1 +="weight : "+weight+",";
+  if(filterState != "lckhac") data1 +="state : "+state+",";
+  if(filterCard != "lckhac") data1 +="card : "+card+",";
+ if(filterChip != "lckhac") data1+="chip :"+chip+",";
+ if(filterRam != "lckhac") data1+="ram :"+ram+",";
+ if(filterHarddisk != "lckhac") data1+="harddisk :"+harddisk+",";
+ if(filterTypeharddisk != "lckhac") data1+="typeharddisk :"+typeharddisk+",";
+ var check = data1.slice(0,data1.length-1);
+ 
+ var test = "{"+check+"}";
+ MongoClient.connect(url,function(err,db){
+    if(err) throw err;
+    var dbo = db.db("mydb");
     
+    var quety = JSON.stringify(eval('('+test+')'));
+    quety=JSON.parse(quety)
+    console.log(quety)
+    dbo.collection("máy tính").find(quety).toArray(function(err,result){
+        if(err) throw err;
+        var data =[];
+        for(var i=0;i<result.length;i++){
+            if(result[i].label == "Dell")
+            data.push(result[i]);
+                }
+        var data2=[];
+        for(var i=0;i<data.length;i++){
+            if((parseInt(data[i].price) >= parseInt(filterMinPrice[0])) && (parseInt(data[i].price) <= parseInt(filterMaxPrice[0]))){
+                data2.push(data[i]);
+            }
+        }
+            res.render("filterdellProducts",{data:data2});
+            db.close();
+       
+    })
 })
+})
+
+app.post("/maytinhasus/filter",function(req,res){
+    //tao bien de luu gia tri nguoi dung chon de loc
+    var filterMinPrice = req.body.filterMinPrice;
+    var filterMaxPrice = req.body.filterMaxPrice;
+    var filterState = req.body.filterState;
+    var filterWeight = req.body.filterWeight;
+    var filterRam = req.body.filterRam;
+    var filterHarddisk = req.body.filterHarddisk;
+    var filterTypeharddisk = req.body.filterTypeharddisk;
+    var filterCard = req.body.filterCard;
+    var filterChip = req.body.filterChip;
+    var MongoClient = require("mongodb").MongoClient;
+     var url = "mongodb://localhost:27017";
+  var data1 =" ";
+
+var weight = "'" + filterWeight +"'"; 
+var state = "'" + filterState +"'"; 
+var card = "'" + filterCard +"'";
+var chip = "'" + filterChip +"'";
+var ram = "'" + filterRam +"'";
+var harddisk = "'" + filterHarddisk +"'";
+var typeharddisk = "'" + filterTypeharddisk +"'";
+  if(filterWeight != "lckhac") data1 +="weight : "+weight+",";
+  if(filterState != "lckhac") data1 +="state : "+state+",";
+  if(filterCard != "lckhac") data1 +="card : "+card+",";
+ if(filterChip != "lckhac") data1+="chip :"+chip+",";
+ if(filterRam != "lckhac") data1+="ram :"+ram+",";
+ if(filterHarddisk != "lckhac") data1+="harddisk :"+harddisk+",";
+ if(filterTypeharddisk != "lckhac") data1+="typeharddisk :"+typeharddisk+",";
+ var check = data1.slice(0,data1.length-1);
+ 
+ var test = "{"+check+"}";
+ MongoClient.connect(url,function(err,db){
+    if(err) throw err;
+    var dbo = db.db("mydb");
+    
+    var quety = JSON.stringify(eval('('+test+')'));
+    quety=JSON.parse(quety)
+    console.log(quety)
+    dbo.collection("máy tính").find(quety).toArray(function(err,result){
+        if(err) throw err;
+        var data =[];
+        for(var i=0;i<result.length;i++){
+            if(result[i].label == "Asus")
+            data.push(result[i]);
+                }
+        var data2=[];
+        for(var i=0;i<data.length;i++){
+            if((parseInt(data[i].price) >= parseInt(filterMinPrice[0])) && (parseInt(data[i].price) <= parseInt(filterMaxPrice[0]))){
+                data2.push(data[i]);
+            }
+        }
+            res.render("filterasusProducts",{data:data2});
+            db.close();
+       
+    })
+})
+})
+
+app.post("/maytinhhp/filter",function(req,res){
+    //tao bien de luu gia tri nguoi dung chon de loc
+    var filterMinPrice = req.body.filterMinPrice;
+    var filterMaxPrice = req.body.filterMaxPrice;
+    var filterState = req.body.filterState;
+    var filterWeight = req.body.filterWeight;
+    var filterRam = req.body.filterRam;
+    var filterHarddisk = req.body.filterHarddisk;
+    var filterTypeharddisk = req.body.filterTypeharddisk;
+    var filterCard = req.body.filterCard;
+    var filterChip = req.body.filterChip;
+    var MongoClient = require("mongodb").MongoClient;
+     var url = "mongodb://localhost:27017";
+  var data1 =" ";
+
+var weight = "'" + filterWeight +"'"; 
+var state = "'" + filterState +"'"; 
+var card = "'" + filterCard +"'";
+var chip = "'" + filterChip +"'";
+var ram = "'" + filterRam +"'";
+var harddisk = "'" + filterHarddisk +"'";
+var typeharddisk = "'" + filterTypeharddisk +"'";
+  if(filterWeight != "lckhac") data1 +="weight : "+weight+",";
+  if(filterState != "lckhac") data1 +="state : "+state+",";
+  if(filterCard != "lckhac") data1 +="card : "+card+",";
+ if(filterChip != "lckhac") data1+="chip :"+chip+",";
+ if(filterRam != "lckhac") data1+="ram :"+ram+",";
+ if(filterHarddisk != "lckhac") data1+="harddisk :"+harddisk+",";
+ if(filterTypeharddisk != "lckhac") data1+="typeharddisk :"+typeharddisk+",";
+ var check = data1.slice(0,data1.length-1);
+ 
+ var test = "{"+check+"}";
+ MongoClient.connect(url,function(err,db){
+    if(err) throw err;
+    var dbo = db.db("mydb");
+    
+    var quety = JSON.stringify(eval('('+test+')'));
+    quety=JSON.parse(quety)
+    console.log(quety)
+    dbo.collection("máy tính").find(quety).toArray(function(err,result){
+        if(err) throw err;
+        var data =[];
+        for(var i=0;i<result.length;i++){
+            if(result[i].label == "HP")
+            data.push(result[i]);
+                }
+        var data2=[];
+        for(var i=0;i<data.length;i++){
+            if((parseInt(data[i].price) >= parseInt(filterMinPrice[0])) && (parseInt(data[i].price) <= parseInt(filterMaxPrice[0]))){
+                data2.push(data[i]);
+            }
+        }
+            res.render("filterhpProducts",{data:data2});
+            db.close();
+       
+    })
+})
+})
+
+app.post("/maytinhlenovo/filter",function(req,res){
+    //tao bien de luu gia tri nguoi dung chon de loc
+    var filterMinPrice = req.body.filterMinPrice;
+    var filterMaxPrice = req.body.filterMaxPrice;
+    var filterState = req.body.filterState;
+    var filterWeight = req.body.filterWeight;
+    var filterRam = req.body.filterRam;
+    var filterHarddisk = req.body.filterHarddisk;
+    var filterTypeharddisk = req.body.filterTypeharddisk;
+    var filterCard = req.body.filterCard;
+    var filterChip = req.body.filterChip;
+    var MongoClient = require("mongodb").MongoClient;
+     var url = "mongodb://localhost:27017";
+  var data1 =" ";
+
+var weight = "'" + filterWeight +"'"; 
+var state = "'" + filterState +"'"; 
+var card = "'" + filterCard +"'";
+var chip = "'" + filterChip +"'";
+var ram = "'" + filterRam +"'";
+var harddisk = "'" + filterHarddisk +"'";
+var typeharddisk = "'" + filterTypeharddisk +"'";
+  if(filterWeight != "lckhac") data1 +="weight : "+weight+",";
+  if(filterState != "lckhac") data1 +="state : "+state+",";
+  if(filterCard != "lckhac") data1 +="card : "+card+",";
+ if(filterChip != "lckhac") data1+="chip :"+chip+",";
+ if(filterRam != "lckhac") data1+="ram :"+ram+",";
+ if(filterHarddisk != "lckhac") data1+="harddisk :"+harddisk+",";
+ if(filterTypeharddisk != "lckhac") data1+="typeharddisk :"+typeharddisk+",";
+ var check = data1.slice(0,data1.length-1);
+ 
+ var test = "{"+check+"}";
+ MongoClient.connect(url,function(err,db){
+    if(err) throw err;
+    var dbo = db.db("mydb");
+    
+    var quety = JSON.stringify(eval('('+test+')'));
+    quety=JSON.parse(quety)
+    console.log(quety)
+    dbo.collection("máy tính").find(quety).toArray(function(err,result){
+        if(err) throw err;
+        var data =[];
+        for(var i=0;i<result.length;i++){
+            if(result[i].label == "Lenovo")
+            data.push(result[i]);
+                }
+        var data2=[];
+        for(var i=0;i<data.length;i++){
+            if((parseInt(data[i].price) >= parseInt(filterMinPrice[0])) && (parseInt(data[i].price) <= parseInt(filterMaxPrice[0]))){
+                data2.push(data[i]);
+            }
+        }
+            res.render("filterlenovoProducts",{data:data2});
+            db.close();
+       
+    })
+})
+})
+
+app.post("/maytinhacer/filter",function(req,res){
+    //tao bien de luu gia tri nguoi dung chon de loc
+    var filterMinPrice = req.body.filterMinPrice;
+    var filterMaxPrice = req.body.filterMaxPrice;
+    var filterState = req.body.filterState;
+    var filterWeight = req.body.filterWeight;
+    var filterRam = req.body.filterRam;
+    var filterHarddisk = req.body.filterHarddisk;
+    var filterTypeharddisk = req.body.filterTypeharddisk;
+    var filterCard = req.body.filterCard;
+    var filterChip = req.body.filterChip;
+    var MongoClient = require("mongodb").MongoClient;
+     var url = "mongodb://localhost:27017";
+  var data1 =" ";
+
+var weight = "'" + filterWeight +"'"; 
+var state = "'" + filterState +"'"; 
+var card = "'" + filterCard +"'";
+var chip = "'" + filterChip +"'";
+var ram = "'" + filterRam +"'";
+var harddisk = "'" + filterHarddisk +"'";
+var typeharddisk = "'" + filterTypeharddisk +"'";
+  if(filterWeight != "lckhac") data1 +="weight : "+weight+",";
+  if(filterState != "lckhac") data1 +="state : "+state+",";
+  if(filterCard != "lckhac") data1 +="card : "+card+",";
+ if(filterChip != "lckhac") data1+="chip :"+chip+",";
+ if(filterRam != "lckhac") data1+="ram :"+ram+",";
+ if(filterHarddisk != "lckhac") data1+="harddisk :"+harddisk+",";
+ if(filterTypeharddisk != "lckhac") data1+="typeharddisk :"+typeharddisk+",";
+ var check = data1.slice(0,data1.length-1);
+ 
+ var test = "{"+check+"}";
+ MongoClient.connect(url,function(err,db){
+    if(err) throw err;
+    var dbo = db.db("mydb");
+    
+    var quety = JSON.stringify(eval('('+test+')'));
+    quety=JSON.parse(quety)
+    console.log(quety)
+    dbo.collection("máy tính").find(quety).toArray(function(err,result){
+        if(err) throw err;
+        var data =[];
+        for(var i=0;i<result.length;i++){
+            if(result[i].label == "Acer")
+            data.push(result[i]);
+                }
+        var data2=[];
+        for(var i=0;i<data.length;i++){
+            if((parseInt(data[i].price) >= parseInt(filterMinPrice[0])) && (parseInt(data[i].price) <= parseInt(filterMaxPrice[0]))){
+                data2.push(data[i]);
+            }
+        }
+            res.render("filteracerProducts",{data:data2});
+            db.close();
+       
+    })
+})
+})
+
 io.on("connection",function(socket){
 socket.on("gui-comment",function(data){
     var  info = data.split("ooo");
@@ -982,23 +1167,28 @@ app.delete("/delete",function(req,res){
 app.post("/updatesp",function(req,res){
     
     var name = req.body.nameproduct;
-    var describle = req.body.describleproduct;
     var title = req.body.nameuser;
+    var describle = req.body.describleproduct;
     var attached = req.body.attached;
-    var label    = req.body.label;
-    var weight   = req.body.weight;
-    var state    = req.body.state;
-    var price    = req.body.price;
+    var label = req.body.label;
+    var chip = req.body.chip;
+    var weight = req.body.weight;
+    var ram = req.body.ram;
+    var harddisk = req.body.harddisk;
+    var typeharddisk = req.body.typeharddisk;
+    var card = req.body.card;
+    var state = req.body.state;
+    var price = req.body.price;
     var errors=0;
 if(!name || !price || !describle)
       errors = [{msg: "Bạn nhập thiếu dữ liệu"}];
    if(errors){
-    res.render('deleteandupdate',{err: errors,data: {image: test,_id: req.body.filename, name: name,describle: describle,attached: attached,label: label,weight: weight,state: state,price: price}});
+    res.render('deleteandupdate',{err: errors,data: {image: test,_id: req.body.filename, name: name,price: price,shop: title,label: label,chip:chip, weight: weight,ram:ram,harddisk:harddisk,typeharddisk:typeharddisk,card:card,state: state,attached:attached,describle:describle}});
    }else{
     var MongoClient = require('mongodb').MongoClient;
     var url = "mongodb://localhost:27017/";
     var where = {_id: req.body.filename }
-var query = {$set: {name: name,price: price,label: label, weight: weight, state: state,describle:describle}};
+var query = {$set: {name: name,price: price,shop: title,label: label,chip:chip, weight: weight,ram:ram,harddisk:harddisk,typeharddisk:typeharddisk,card:card,state: state,attached:attached,describle:describle}};
 MongoClient.connect(url, function(err, db) {
   if (err) throw err;
   var dbo = db.db("mydb");
@@ -1082,7 +1272,12 @@ app.post("/themsanpham",function(req,res){
     var describle = req.body.describleproduct;
     var attached = req.body.attached;
     var label = req.body.label;
+    var chip = req.body.chip;
     var weight = req.body.weight;
+    var ram = req.body.ram;
+    var harddisk = req.body.harddisk;
+    var typeharddisk = req.body.typeharddisk;
+    var card = req.body.card;
     var state = req.body.state;
     var price = req.body.price;
     var filename = test;
@@ -1096,7 +1291,7 @@ if(!name || !price || !describle)
     var MongoClient = require('mongodb').MongoClient;
     var url = "mongodb://localhost:27017/";
 
-   var query = {_id: filename.toString().substring(0,filename.length-4),image: filename,name: name,price: price,shop: title,label: label, weight: weight, state: state,attached:attached,describle:describle,comment:""};
+   var query = {_id: filename.toString().substring(0,filename.length-4),image: filename,name: name,price: price,shop: title,label: label,chip:chip, weight: weight,ram:ram,harddisk:harddisk,typeharddisk:typeharddisk,card:card,state: state,attached:attached,describle:describle,comment:""};
 MongoClient.connect(url, function(err, db) {
   if (err) throw err;
   var dbo = db.db("mydb");
@@ -1124,22 +1319,22 @@ var res2,res3,res4;
 var MongoClient1 = require('mongodb').MongoClient;
 MongoClient1.connect(url, function(err, db) {
 var db1 = db.db("mydb");
-db1.collection("bàn phím").find().toArray(function(err,r){
+db1.collection("tempSP").find({label : "Lenovo"}).toArray(function(err,r){
     res2=r;
 })  
-db1.collection("tai nghe").find().toArray(function(err,r){
+db1.collection("tempSP").find({label : "Acer"}).toArray(function(err,r){
     res3=r;
 })
-db1.collection("ổ cứng").find().toArray(function(err,r){
+db1.collection("tempSP").find({label : "HP"}).toArray(function(err,r){
     res4=r;
 })
 db.close();
 MongoClient.connect(url, function(err, db) {
     if (err) throw err;
     var dbo = db.db("mydb");
-    dbo.collection("máy tính").find({}).toArray(function(err, result) {
+    dbo.collection("máy tính").find({label : "Dell"}).toArray(function(err, result) {
       if (err) throw err;
-      dbo.collection("chuột").find().toArray(function(err, res1){
+      dbo.collection("máy tính").find({label : "Asus"}).toArray(function(err, res1){
         if (err) throw err;
                     db.close();
                     res.render('homepage',{

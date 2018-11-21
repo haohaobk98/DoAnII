@@ -1,4 +1,4 @@
-<% if(user) { %>
+
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -124,19 +124,103 @@
                                      <option value="Acer">Acer</option>
                              </select>
                     </div>
+
+                    <div>
+                            <div id="list">Bộ vi xử lí</div>
+                            <div class="custom-select" >
+                                <select name="chip">
+                                        <option value="<%=data.chip%>"><%=data.chip%></option>
+                                        <option value="Intel Core i3">Intel Core i3</option>
+                                        <option value="Intel Core i5">Intel Core i5</option>
+                                        <option value="Intel Core i7">Intel Core i7</option>
+                                        <option value="Intel Core i9">Intel Core i9</option>
+                                        <option value="khác">khác</option>
+                                </select>
+                            </div>
+                        </div>
+
+
                     <div>
                        <div id="khoiluong">Khối lượng</div>
                        <div class="custom-select" >
                              <select name="weight">
                                   <option value = "<%= data.weight%>"><%= data.weight%></option>
-                                  <option value="0.5kg đến 1kg">0.5kg đến 1kg</option>
-                                  <option value="1kg đến 2kg">1kg đến 2kg</option>
-                                  <option value="3kg đến  4kg ">3kg đến  4kg </option>
-                                  <option value="4kg đến 5kg ">4kg đến 5kg </option>
-                                  <option value="trên 5kg">trên 5kg</option>
+                                  <option value="Nhỏ hơn 1 kg">Nhỏ hơn 1 kg</option>
+                          <option value="1 kg"> 1 kg</option>
+                          <option value="1.25 kg"> 1.25 kg</option>
+                          <option value="1.5 kg"> 1.5 kg</option>
+                          <option value="1.75 kg"> 1.75 kg</option>
+                          <option value="2 kg"> 2 kg</option>
+                          <option value="2.25 kg"> 2.25 kg</option>
+                          <option value="2.5 kg"> 2.5 kg</option>
+                          <option value="Lớn hơn 2.5 kg">Lớn hơn 2.5 kg</option>
                              </select>
                        </div>
                     </div>
+
+                    <div>
+                            <div id="list">RAM</div>
+                            <div class="custom-select" >
+                                <select name="ram">
+                                <option value="<%=data.ram%>"><%=data.ram%></option>
+                                  <option value="Nhỏ hơn 1 GB">Nhỏ hơn 1 GB</option>
+                                  <option value="1 GB"> 1 GB</option>
+                                  <option value="2 GB"> 2 GB</option>
+                                  <option value="4 GB"> 4 GB</option>
+                                  <option value="6 GB"> 6 GB</option>
+                                  <option value="8 GB"> 8 GB</option>
+                                  <option value="16 GB"> 16 GB</option>
+                                  <option value="32 GB"> 32 GB</option>
+                                  <option value="Lớn hơn 32 GB">Lớn hơn 32 GB</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                                <div id="list">Ổ cứng</div>
+                                <div class="custom-select" >
+                                    <select name="harddisk">
+                                      <option value="<%=data.harddisk%>"><%=data.harddisk%></option>
+                                        <option value="Nhỏ hơn 128 GB">Nhỏ hơn 128 GB</option>
+                                      <option value="128 GB"> 128 GB</option>
+                                      <option value="250 GB"> 250 GB</option>
+                                      <option value="256 GB"> 256 GB</option>
+                                      <option value="320 GB"> 320 GB</option>
+                                      <option value="480 GB"> 480 GB</option>
+                                      <option value="640 GB"> 640 GB</option>
+                                      <option value="700 GB"> 700 GB</option>
+                                      <option value="1 TB"> 1 TB</option>
+                                      <option value="Lớn hơn 1 TB">Lớn hơn 1 TB</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+
+                            <div>
+                                    <div id="list">Loại ổ cứng</div>
+                                    <div class="custom-select" >
+                                        <select name="typeharddisk">
+                                            <option value="<%=data.typeharddisk%>"><%=data.typeharddisk%></option>
+                                          <option value="SSD">SSD</option>
+                                          <option value="HHD">HHD</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div>
+                                        <div id="list">Card màn hình </div>
+                                        <div class="custom-select" >
+                                            <select name="card">
+                                              <option value="<%=data.card%>"><%=data.card%></option>
+                                              <option value="Onboard">Onboard</option>
+                                              <option value="AMD">AMD</option>
+                                              <option value="NVIDIA">NVIDIA</option>
+                                              <option value="khác">khác</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+
                       <div id="trangthai">Trạng thái </div>
                       <div class="custom-select" >
                         <select name="state">
@@ -169,68 +253,7 @@
                 </div>
            
          
-            <div id ="san-pham">
-              <div class="container">
-                      <table class="row">
-                          <tr>
-                       <th id = "left"> <div class="col-sm-4">
-                               
-                                    <div class="card card-body mb-3">
-                                  
-                                        <img id="image"src="/image/<%= data.image %>" alt="" width="250px" height="250px">
-                                 
-                                    </div><br>
-                                    <!-- <div id="report">
-                                    <button id="btn-report">report sản phẩm</button>
-      
-                                    <% if(user) { %>
-                                      <div class="text-report">
-                                          <form method="POST" action="">
-                                              <label style="font-weight:normal;">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspLí do report:</label>
-                                              <textarea id="textarea" rows="10" cols="35"></textarea>
-                                              <input type="button" value="send" id="send-report">
-                                          </form>
-                                      </div>
-                                      <div id="thanks-report" style="display:none;">
-                                          <p>Cảm ơn sự góp ý của bạn!</p>
-                                      </div>
-                                    <% } %>
-                                    <% if(!user){ %>
-                                      <div class="text-report" style="margin-top:5px;margin-left:23px;">Bạn hãy đăng nhập để report về sản phẩm</div>
-                                    <% }%>
-                                  </div> -->
-                                      
-                        
-                        </div></th>
-                        <th id="right">
-                            <div class="col-sm-6">
-                          <label>Tên sản phẩm: </label>
-                          <span id="name"><%- data.name %></span><hr>
-                          <label>Giá sản phẩm: </label>
-                          <span id="price"><%- data.price %></span><br>
-                          <label>Nhãn hiệu: </label>
-                          <span id="label"><%- data.label %> </span><hr>
-                          <label>Trạng thái: </label>
-                          <span id="state"><%- data.state %> </span><br>
-                          <label>Danh mục: </label>
-                          <span id="attached"><%- data.attached %></span><br>
-                          <label>Khối lượng: </label>
-                          <span id="weight"><%- data.weight %></span><br>
-                          <label>Đăng bởi: </label>
-                          
-                        </div>
-                      </th>
-                      </tr>
-                      </table>
-                    </div>
-              <div class="option">
-                  <ul>
-                      <li onclick="mota()">Mô tả</li>
-                      <li onclick="binhluan()">Đánh giá/Bình luận</li>
-                  </ul>
-              </div>
-              <textarea id="mota" cols="100" rows="20" style="border: none;"><%-data.describle %></textarea>
-             </div>
+          
           
      
          
@@ -245,165 +268,3 @@
     }
     </script>
     </html> 
-<% } else { %>
-    <!doctype html>
-    <html>
-        <head>
-            <title>
-                app read books
-            </title>
-            <script src="/socket.io/socket.io.js"></script>
-            <script src="/js/jqurey.js"></script>
-            <script src="/js/chucnang.js"></script>
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-            <link rel="stylesheet" href="/css/footer.css" type="text/css" >   
-            <link rel="stylesheet" href="/css/template.css" type="text/css" >  
-            <link rel="stylesheet" href="/css/body.css" type="text/css" >  
-            <link rel="stylesheet" href="/css/DinhDang.css" type="text/css" >  
-            <link rel="stylesheet" href="/css/bootstrap.css" type="text/css" > 
-            <style>
-                #btn-report,#send-report{
-                    padding:5px;
-                    border:1px solid #000;
-                    border-radius:5px;
-                    margin-bottom:5px;
-                }
-                .text-report{
-                    width:200px;
-                    display:none;
-                }
-               
-                #textarea{
-                    padding:5px;
-                }
-                #send-report{
-                    margin-left:58px;
-                }
-                #user-infomation{
-                    display:none;
-                }
-                #showphone{
-                    padding:10px 5px;
-                    width:380px;
-                    text-align:center;
-                    background-color:#679bef;
-                    border-radius:5px;
-                    font-weight:bold;
-                }
-                .tooltip{
-                    visibility: hidden;
-                     width: 200px;
-                   background-color: black;
-                   color: #fff;
-                  text-align: center;
-                 border-radius: 6px;
-                padding: 5px 0;
-                  /* Position the tooltip */
-                   position: absolute;
-                   z-index: 1;
-                }
-                #shop-link:hover .tooltip{
-                    visibility: visible;
-                }
-                @media screen and (max-width : 1000px){
-                    th {
-                        display:block;
-                    }
-                }
-            </style>
-        </head>
-        <body>
-    <div id = "container">
-        <!-- header starts here-->
-    <% include template/header %>
-    <div id ="container_inner">
-        <!-- nav starts here-->
-    <div id="container_inner_nav">
-    <div id="container_inner_nav-inner">
-    <% include template/nav %>
-    </div>
-    </div>
-        <!-- content starts here -->
-    <div id = "container_inner_content">
-    <div id ="container_inner_content-inner">
-        <div id ="san-pham">
-            <div class="container">
-                    <table class="row">
-                        <tr>
-                     <th id = "left"> <div class="col-sm-4">
-                             
-                                  <div class="card card-body mb-3">
-                                
-                                      <img id="image"src="/image/<%= data.image %>" alt="" width="250px" height="250px">
-                               
-                                  </div><br>
-                                  <!-- <div id="report">
-                                  <button id="btn-report">report sản phẩm</button>
-    
-                                  <% if(user) { %>
-                                    <div class="text-report">
-                                        <form method="POST" action="">
-                                            <label style="font-weight:normal;">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspLí do report:</label>
-                                            <textarea id="textarea" rows="10" cols="35"></textarea>
-                                            <input type="button" value="send" id="send-report">
-                                        </form>
-                                    </div>
-                                    <div id="thanks-report" style="display:none;">
-                                        <p>Cảm ơn sự góp ý của bạn!</p>
-                                    </div>
-                                  <% } %>
-                                  <% if(!user){ %>
-                                    <div class="text-report" style="margin-top:5px;margin-left:23px;">Bạn hãy đăng nhập để report về sản phẩm</div>
-                                  <% }%>
-                                </div> -->
-                                    
-                      
-                      </div></th>
-                      <th id="right">
-                          <div class="col-sm-6">
-                        <label>Tên sản phẩm: </label>
-                        <span id="name"><%- data.name %></span><hr>
-                        <label>Giá sản phẩm: </label>
-                        <span id="price"><%- data.price %></span><br>
-                        <label>Nhãn hiệu: </label>
-                        <span id="label"><%- data.label %> </span><hr>
-                        <label>Trạng thái: </label>
-                        <span id="state"><%- data.state %> </span><br>
-                        <label>Danh mục: </label>
-                        <span id="attached"><%- data.attached %></span><br>
-                        <label>Khối lượng: </label>
-                        <span id="weight"><%- data.weight %></span><br>
-                      </div>
-                    </th>
-                    </tr>
-                    </table>
-                  </div>
-            <div class="option">
-                <ul>
-                    <li onclick="mota()">Mô tả</li>
-                    <li onclick="binhluan()">Đánh giá/Bình luận</li>
-                </ul>
-            </div>
-            <textarea id="mota" cols="100" rows="20" style="border: none;"><%-data.describle %></textarea>
-           </div>
-           <%if(user){%>
-           <div id="binhluan">
-                <label><%-user.name%>: </label>
-                <textarea rows="5" cols="50" name="description" placeholder="Comment" id = "Comment"></textarea>
-                <input type="button" id="send" value="Send">
-                <textarea rows="5" cols="50" name="description" placeholder="Comment" id = "showcomment" disabled><%-data.comment%></textarea>
-           </div>
-           <%}%>
-           <%if(!user){%>
-               <div style="display:none;">Bạn hãy đăng nhập để bình luận về sản phẩm</div>
-            <%}%>
-    </div>
-    
-    </div>
-    </div>
-    
-    <% include template/footer %>
-    </div>
-    </div>
-    <% include template/body2 %>
-<%}%>

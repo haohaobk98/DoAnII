@@ -52,7 +52,7 @@ width:400px;
  }
 #footer_promo_inner ul li{
 	padding:0.5em;
-	
+	list-style:none;
 }
 #footer_promo_inner ul li a{
 	text-decoration:none;

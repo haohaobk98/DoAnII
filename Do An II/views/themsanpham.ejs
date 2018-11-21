@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/css/themsanpham.css">
     <link rel="stylesheet" href="/css/footer.css">
     <link rel="stylesheet" href="/css/header.css">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
       img {
@@ -17,7 +18,98 @@
     </style>
 </head>
 <body>
-    <% include template/header %>
+    	<!-- HEADER STARTS HERE -->
+      <div id="header">
+        <div id="header-inner1">
+           <div id = "header-inner1-image">
+               <div id = "header-inner1-image-inner">
+                 <a href="/">  <img id="image-header"src ="https://moki.vn/moki/themes/img/logo_big.png" alt ="Moki.vn - Ứng dụng mua bán trên di động | moki.vn" class = "image" > </a>
+               </div>
+           </div>
+           <div id ="header-inner1-title"> 
+               <p> Chào mừng bạn đến với Moki - Trang website bán hàng lớn nhất thế giới!</p> 
+           </div>
+           <div class = "header1-inner-link">
+               <div id="header1-inner-link-inner">
+           <div class     ="header-inner-link">
+             <ul>
+               <li><a href=#>History</a></li>
+               <li><a href=#>Events</a></li>
+               <li><a href=#>Voucher</a></li>
+             </ul>
+          </div>
+            <div id ="header1-inner-link2">
+             <a href="https://www.facebook.com/moki.vn" target="_blank"> <i class = "fa fa-facebook-square"></i></a>
+             <a href="https://www.youtube.com/channel/UCM7dLGfHJ6onxoY3StztfwQ/" target="_blank"> <i class = "fa fa-youtube-square"></i></a>
+             <a href="https://twitter.com/MOKI_VN" target="_blank"> <i class = "fa fa-twitter"></i></a>
+             <a href="https://www.instagram.com/moki.vn/" target="_blank"> <i class = "fa fa-instagram"></i></a>
+             <a href="https://www.instagram.com/moki.vn/" target="_blank"> <i class = "fa fa-skype"></i></a>
+             <a href="https://www.instagram.com/moki.vn/" target="_blank"> <i class = "fa fa-globe"></i></a>
+           </div>
+       </div>
+           </div>
+       </div>
+<div id ="header-inner2">
+  <div id="header-inner2-search">
+   <form action="/search" method="POST" class="header-inner2-form" id="ProductsSearchProductForm" role="search">
+       <input class="header-inner2-form-input" type="search" placeholder="Tìm kiếm sản phẩm"  value="" name="product_name" id="product_name" required="">
+       <button class="header-inner2-form-button" type="submit">
+           <i class="fa fa-search" aria-hidden="true"></i>
+           
+       </button>
+   </form>
+ </div>
+ <div class = "header-inner2-link">
+   <ul>
+       <% if(!user){ %>
+           <li>
+               <a href="#" >Sản phẩm giảm giá</a>
+           </li>
+           <li>
+               <a href="#" >Sản phẩm mới</a>
+           </li>
+           <li>
+               <a href="#" >Sản phẩm khuyến mại</a>
+           </li>
+     
+         <li>
+           <a href="/login" >Đăng nhập</a>
+       </li>
+       <li>
+             <a href="/register" >Đăng kí</a>
+         </li>
+         
+         <%}%>
+         <% if(user) {%>
+             <li>
+                 <a href="/themsanpham" >Thêm sản phẩm </a> 
+             </li>
+             <li>
+                   <a href="/listproduct/<%-user.username%>" >Danh sách sản phẩm đăng</a>
+               </li>
+               <li>
+                 <a href=# >Danh sách người theo dõi</a>
+             </li>
+             <li>
+                   <a href="/followList" >Danh sách theo dõi</a>
+               </li>
+             <li>
+                 <a href="/logout">Đăng xuất</a>
+             </li>
+             <li id = "user">
+              
+               <a ><i class="fa fa-user"></i>Hello: <%- user.name%></a>
+               <ul id="user-option">
+                    <li><a href="/user/changePassword">Thay đổi mật khẩu</a></>
+                    <li><a href="/userinformation/<%-user.username%>">Thông tin tài khoản</a></li>
+              </ul>
+           </li>
+             <%}%>
+   </ul>
+ </div>
+</div>
+    </div>
+               <!-- HEADER ENDS HERE -->
       <div class="row">
         <div class="column side" id="menuleft">
           <div id="sidebar">
@@ -91,13 +183,10 @@
                     <div class="custom-select" >
                         <select name="attached">
                                 <option value="máy tính">Laptop</option>
-                                <option value="chuột">Chuột</option>
-                                <option value="bàn phím">Bàn phím</option>
-                                <option value="ổ cứng">Ổ cứng</option>
-                                <option value="tai nghe">Tai nghe</option>
                         </select>
                     </div>
                 </div>
+
                 <div>
                     <div id="nhanhieu">Nhãn hiệu</div>
                     <div class="custom-select" >
@@ -109,18 +198,96 @@
                                  <option value="Acer">Acer</option>
                          </select>
                 </div>
+
                 <div>
-                   <div id="khoiluong">Khối lượng</div>
-                   <div class="custom-select" >
-                         <select name="weight">
-                              <option value="0.5kg đến 1kg">0.5kg đến 1kg</option>
-                              <option value="1kg đến 2kg">1kg đến 2kg</option>
-                              <option value="3kg đến  4kg ">3kg đến  4kg </option>
-                              <option value="4kg đến 5kg ">4kg đến 5kg </option>
-                              <option value="trên 5kg">trên 5kg</option>
-                         </select>
-                   </div>
+                    <div id="list">Bộ vi xử lí</div>
+                    <div class="custom-select" >
+                        <select name="chip">
+                                <option value="Intel Core i3">Intel Core i3</option>
+                                <option value="Intel Core i5">Intel Core i5</option>
+                                <option value="Intel Core i7">Intel Core i7</option>
+                                <option value="Intel Core i9">Intel Core i9</option>
+                                <option value="khác">khác</option>
+                        </select>
+                    </div>
                 </div>
+
+                <div>
+                    <div id="list">Khối lượng</div>
+                    <div class="custom-select" >
+                        <select name="weight">
+                          <option value="Nhỏ hơn 1 kg">Nhỏ hơn 1 kg</option>
+                          <option value="1 kg"> 1 kg</option>
+                          <option value="1.25 kg"> 1.25 kg</option>
+                          <option value="1.5 kg"> 1.5 kg</option>
+                          <option value="1.75 kg"> 1.75 kg</option>
+                          <option value="2 kg"> 2 kg</option>
+                          <option value="2.25 kg"> 2.25 kg</option>
+                          <option value="2.5 kg"> 2.5 kg</option>
+                          <option value="Lớn hơn 2.5 kg">Lớn hơn 2.5 kg</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <div id="list">RAM</div>
+                    <div class="custom-select" >
+                        <select name="ram">
+                          <option value="Nhỏ hơn 1 GB">Nhỏ hơn 1 GB</option>
+                          <option value="1 GB"> 1 GB</option>
+                          <option value="2 GB"> 2 GB</option>
+                          <option value="4 GB"> 4 GB</option>
+                          <option value="6 GB"> 6 GB</option>
+                          <option value="8 GB"> 8 GB</option>
+                          <option value="16 GB"> 16 GB</option>
+                          <option value="32 GB"> 32 GB</option>
+                          <option value="Lớn hơn 32 GB">Lớn hơn 32 GB</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <div id="list">Ổ cứng</div>
+                    <div class="custom-select" >
+                        <select name="harddisk">
+                            <option value="Nhỏ hơn 128 GB">Nhỏ hơn 128 GB</option>
+                          <option value="128 GB"> 128 GB</option>
+                          <option value="250 GB"> 250 GB</option>
+                          <option value="256 GB"> 256 GB</option>
+                          <option value="320 GB"> 320 GB</option>
+                          <option value="480 GB"> 480 GB</option>
+                          <option value="640 GB"> 640 GB</option>
+                          <option value="700 GB"> 700 GB</option>
+                          <option value="1 TB"> 1 TB</option>
+                          <option value="Lớn hơn 1 TB">Lớn hơn 1 TB</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <div id="list">Loại ổ cứng</div>
+                    <div class="custom-select" >
+                        <select name="typeharddisk">
+                          <option value="SSD">SSD</option>
+                          <option value="HHD">HHD</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <div id="list">Card màn hình </div>
+                    <div class="custom-select" >
+                        <select name="card">
+                          <option value="Onboard">Onboard</option>
+                          <option value="AMD">AMD</option>
+                          <option value="NVIDIA">NVIDIA</option>
+                          <option value="khác">khác</option>
+                        </select>
+                    </div>
+                </div>
+
+
+
                 <div>
                   <div id="trangthai">Trạng thái </div>
                   <div class="custom-select" >
@@ -135,6 +302,7 @@
                      <input type="number" id="giatext" name="price">
                     </div>
                   </div>
+
                   <br>
                   <div style="display:flex">
                     <div>

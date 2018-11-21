@@ -16,9 +16,98 @@
     <body>
 <div id = "container">
     <!-- header starts here-->
-    <!-- HEADER STARTS HERE -->
-    <% include template/header %>
-    <!-- HEADER ENDS HERE -->
+    	<!-- HEADER STARTS HERE -->
+        <div id="header">
+            <div id="header-inner1">
+               <div id = "header-inner1-image">
+                   <div id = "header-inner1-image-inner">
+                     <a href="/">  <img src ="https://moki.vn/moki/themes/img/logo_big.png" alt ="Moki.vn - Ứng dụng mua bán trên di động | moki.vn" class = "image" > </a>
+                   </div>
+               </div>
+               <div id ="header-inner1-title"> 
+                   <p> Chào mừng bạn đến với Moki - Trang website bán hàng lớn nhất thế giới!</p> 
+               </div>
+               <div class = "header1-inner-link">
+                   <div id="header1-inner-link-inner">
+               <div class     ="header-inner-link">
+                 <ul>
+                   <li><a href=#>History</a></li>
+                   <li><a href=#>Events</a></li>
+                   <li><a href=#>Voucher</a></li>
+                 </ul>
+              </div>
+                <div id ="header1-inner-link2">
+                 <a href="https://www.facebook.com/moki.vn" target="_blank"> <i class = "fa fa-facebook-square"></i></a>
+                 <a href="https://www.youtube.com/channel/UCM7dLGfHJ6onxoY3StztfwQ/" target="_blank"> <i class = "fa fa-youtube-square"></i></a>
+                 <a href="https://twitter.com/MOKI_VN" target="_blank"> <i class = "fa fa-twitter"></i></a>
+                 <a href="https://www.instagram.com/moki.vn/" target="_blank"> <i class = "fa fa-instagram"></i></a>
+                 <a href="https://www.instagram.com/moki.vn/" target="_blank"> <i class = "fa fa-skype"></i></a>
+                 <a href="https://www.instagram.com/moki.vn/" target="_blank"> <i class = "fa fa-globe"></i></a>
+               </div>
+           </div>
+               </div>
+           </div>
+    <div id ="header-inner2">
+      <div id="header-inner2-search">
+       <form action="/search" method="POST" class="header-inner2-form" id="ProductsSearchProductForm" role="search">
+           <input class="header-inner2-form-input" type="search" placeholder="Tìm kiếm sản phẩm"  value="" name="product_name" id="product_name" required="">
+           <button class="header-inner2-form-button" type="submit">
+               <i class="fa fa-search" aria-hidden="true"></i>
+               
+           </button>
+       </form>
+     </div>
+     <div class = "header-inner2-link">
+       <ul>
+           <% if(!user){ %>
+               <li>
+                   <a href="#" >Sản phẩm giảm giá</a>
+               </li>
+               <li>
+                   <a href="#" >Sản phẩm mới</a>
+               </li>
+               <li>
+                   <a href="#" >Sản phẩm khuyến mại</a>
+               </li>
+         
+             <li>
+               <a href="/login" >Đăng nhập</a>
+           </li>
+           <li>
+                 <a href="/register" >Đăng kí</a>
+             </li>
+             
+             <%}%>
+             <% if(user) {%>
+                 <li>
+                     <a href="/themsanpham" >Thêm sản phẩm </a> 
+                 </li>
+                 <li>
+                       <a href="/listproduct/<%-user.username%>" >Danh sách sản phẩm đăng</a>
+                   </li>
+                   <li>
+                     <a href=# >Danh sách người theo dõi</a>
+                 </li>
+                 <li>
+                       <a href="/followList" >Danh sách theo dõi</a>
+                   </li>
+                 <li>
+                     <a href="/logout">Đăng xuất</a>
+                 </li>
+                 <li id = "user">
+                  
+                   <a ><i class="fa fa-user"></i>Hello: <%- user.name%></a>
+                   <ul id="user-option">
+                        <li><a href="/user/changePassword">Thay đổi mật khẩu</a></>
+                        <li><a href="/userinformation/<%-user.username%>">Thông tin tài khoản</a></li>
+                  </ul>
+               </li>
+                 <%}%>
+       </ul>
+     </div>
+    </div>
+        </div>
+                   <!-- HEADER ENDS HERE -->
 <div id ="container_inner">
     <!-- nav starts here-->
 <div id="container_inner_nav">
@@ -42,10 +131,10 @@
    Thông tin tài khoản của bạn
   </div><hr>
   <div  id =" thongtin">
-                <% if(user.length==0){%>
+                <% if(user1.length == 0){%>
                  <h2>Không tìm thấy sản phẩm </h2>
                   
-              <% } else {user.forEach(function(data) {%>
+              <% } else { user1.forEach((data)=> {%>
                 <form method="POST" action="/user/modifier/<%-data.username%>">
                 <table>
                     <tr>
@@ -54,7 +143,7 @@
                         </td>
                     </tr>
                     <tr>
-                            <th>Tài khoản :</th>
+                            <th>Ten nguoi dung :</th>
                             <td> <input type="text" name="name" id="name" class="input-info" value="<%=data.name %>">
                             </td>
                         </tr>
