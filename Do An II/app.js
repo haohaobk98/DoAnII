@@ -109,8 +109,8 @@ app.get('/register',function(req,res){
 //Nexmo
 
 const nexmo = new Nexmo({
-    apiKey: '5e555a5e',
-    apiSecret: 'i5xyaslqhHZwW00z'
+    apiKey: '4e8d7f7e',
+    apiSecret: 'OT5rGAHzKaFqtztV'
   }, { debug: true });
 
 // Catch form submit
@@ -197,7 +197,17 @@ app.post('/codeconfirm', function(req,res){
             email: email1,
             username: username1,
             password: password1,
-            PhoneNumber:PhoneNumber1
+            PhoneNumber:PhoneNumber1,
+            minPrice :" ",
+            maxPrice :" ",
+            weight : " ",
+            state : " ",
+            chip : " ",
+            ram : " ",
+            harddisk : " ",
+            typeharddisk : " ",
+            card : " " 
+
         });
         User.createUser(newUser, function (err, user) {
             if (err) throw err;
@@ -527,9 +537,11 @@ app.post('/user/modifier/:id',function(req,res){
 })	
 // change password
     app.get('/user/changePassword',function(req,res){
+        console.log(req.user.username);
         res.render("changePassword");
     })
      app.post("/changePassword/:id",function(req,res){
+        
         var title = req.params.id;
          var oldPassword = req.body.oldPassword;
         var newPassword = req.body.newPassword;
@@ -585,7 +597,7 @@ app.get('/logout', function (req, res) {
     res.redirect('/');
 });
 
-//dell products
+//dell products while doesn't exist user
 app.get('/Maytinh/dell',function(req,res){
     var MongoClient = require("mongodb").MongoClient;
     var url = "mongodb://localhost:27017/";
@@ -597,6 +609,144 @@ app.get('/Maytinh/dell',function(req,res){
             res.render("dellComputer",{data:result}); 
             db.close();
                 })
+    })
+})
+//dell products while exist user
+app.get('/Maytinh/dell/:id',function(req,res){
+    // temp=username
+    var temp = req.params.id;
+    var stringmin = " "; // save minimum price
+    var stringmax = " "; // save maximum price
+    var stringFind = " "; // save string filter include : weight,ram,card ....
+    // declare properties for filtering
+    var minprice = " ";
+    var maxprice = " ";
+    var weight = " ";
+    var chip = " ";
+    var card = " ";
+    var ram = " ";
+    var harddisk = " ";
+    var typeharddisk = " ";
+    var state = " ";
+
+    var datafilter = [];
+    //tim kiem trong collection users ten username de lay cac thuoc tinh loc
+    var MongoClient = require("mongodb").MongoClient;
+    var url = "mongodb://localhost:27017/";
+    MongoClient.connect(url,function(err,db){
+        if(err) throw err;
+        var bo = db.db("loginapp");
+        var query = {username:temp};
+        // xuat cac thuoc tinh loc cua user va luu vao cac bien khai bao san
+        bo.collection("users").findOne(query,(err,result)=>{
+            if(err) throw err;
+            datafilter = result;
+            minprice =result.minPrice ;
+            maxprice = result.maxPrice;
+             weight = "'" + result.weight + "'";
+             chip = "'" + result.chip + "'";
+             card = "'" + result.card + "'";
+             ram = "'" +result.ram + "'";
+             harddisk = "'" +result.harddisk + "'";
+             typeharddisk = "'" +result.typeharddisk + "'";
+             state = "'" + result.state + "'";
+            // chuyen doi cac thuoc tinh sang 1 chuoi string
+             if(weight.length != 2) stringFind +="weight : "+weight+",";
+             if(state.length != 2) stringFind +="state : "+state+",";
+             if(card.length != 2) stringFind +="card : "+card+",";
+            if(chip.length != 2) stringFind+="chip :"+chip+",";
+            if(ram.length != 2) stringFind+="ram :"+ram+",";
+            if(harddisk.length != 2) stringFind+="harddisk :"+harddisk+",";
+            if(typeharddisk.length != 2) stringFind+="typeharddisk :"+typeharddisk+",";
+            var check = stringFind.slice(0,stringFind.length-1);
+            
+            var test = "{"+check+"}";
+            console.log(test);
+            //convert price
+            if(minprice == " ") stringmin = minprice;
+            if(maxprice == " ") stringmax = maxprice;
+            if(minprice != " " && maxprice != " "){
+                var convertMin = minprice.split(".");
+                var convertMax = maxprice.split(".");
+
+                for(var i=0; i<convertMin.length; i++){
+                    stringmin += convertMin[i];
+                }
+                for(var i=0; i<convertMax.length; i++){
+                    stringmax += convertMax[i];
+                }
+            }
+            //tim kiem trong database chuoi loc ket qua
+            var dbo = db.db("mydb");
+            // chuyen chuoi string loc ve dang json
+            var quety = JSON.stringify(eval('('+test+')'));
+            quety=JSON.parse(quety)
+        if(stringmin == " " || stringmax ==" "){
+                dbo.collection("máy tính").find({}).toArray(function(err,result1){
+                    if(err) throw err;
+                    var data =[];
+                    for(var i=0;i<result1.length;i++){
+                        if(result1[i].label == "Dell")
+                        data.push(result1[i]);
+                            } 
+                            
+                                console.log("1");
+                                res.render("filterdellProducts",{
+                                    data:data,
+                                    filterCard:datafilter.card,
+                                     filterChip:datafilter.chip,
+                                      filterState:datafilter.state,
+                                      filterWeight:datafilter.weight,
+                                        filterRam:datafilter.ram,
+                                      filterTypeharddisk:datafilter.typeharddisk,
+                                      filterHarddisk:datafilter.harddisk,
+                                      filterMaxPrice:stringmax,
+                                      filterMinPrice:stringmin
+                                });
+                                db.close();
+                            
+                }) 
+            }else{  
+                  dbo.collection("máy tính").find(quety).toArray(function(err,result1){
+                if(err) throw err;
+                var data =[];
+                for(var i=0;i<result1.length;i++){
+                    if(result1[i].label == "Dell")
+                    data.push(result1[i]);
+                        } 
+                    console.log("2");
+                    var data2=[];
+                    for(var i=0;i<data.length;i++){
+                        var convertPrice = data[i].price;
+                        var arrayPrice = convertPrice.split(".");
+                        var stringPrice=' ';
+                        for(var index=0;index<arrayPrice.length; index++)
+                        stringPrice += arrayPrice[index];
+                       
+                        if((parseInt(stringPrice) >= parseInt(stringmin)) && (parseInt(stringPrice) <= parseInt(stringmax))){
+                            data2.push(data[i]);
+                        }
+                    }
+                        res.render("filterdellProducts",{
+                            data:data2,
+                            filterCard:datafilter.card,
+                         filterChip:datafilter.chip,
+                          filterState:datafilter.state,
+                          filterWeight:datafilter.weight,
+                            filterRam:datafilter.ram,
+                          filterTypeharddisk:datafilter.typeharddisk,
+                          filterHarddisk:datafilter.harddisk,
+                          filterMaxPrice:stringmax,
+                          filterMinPrice:stringmin
+                        });
+                        db.close();
+                    })
+                }  
+ 
+            db.close();
+        }) 
+  
+       
     })
 })
 // asus products
@@ -660,8 +810,22 @@ app.get('/Maytinh/acer',function(req,res){
 // filter theo product
 app.post("/maytinhdell/filter",function(req,res){
     //tao bien de luu gia tri nguoi dung chon de loc
-    var filterMinPrice = req.body.filterMinPrice;
-    var filterMaxPrice = req.body.filterMaxPrice;
+    var filterMinPrice = req.body.txtMinPrice;
+    var filterMaxPrice = req.body.txtMaxPrice;
+    // chuyen filterMinprice ve dang string
+    var filterMin = filterMinPrice.substring(0,filterMinPrice.length-2);
+    var minprice = filterMin.split(".");
+    var stringMin = ' ';
+    for(var i=0; i<minprice.length; i++)
+    stringMin += minprice[i];
+    //chuyen filterMaxPrice ve dang string
+    var filterMax = filterMaxPrice.substring(0,filterMaxPrice.length-2);
+    var maxprice = filterMax.split(".");
+    var stringMax = ' ';
+    for(var i=0; i<maxprice.length; i++)
+    stringMax += maxprice[i];
+    console.log(stringMax);
+    // lay gia tri cac thuoc tinh loc 
     var filterState = req.body.filterState;
     var filterWeight = req.body.filterWeight;
     var filterRam = req.body.filterRam;
@@ -669,6 +833,7 @@ app.post("/maytinhdell/filter",function(req,res){
     var filterTypeharddisk = req.body.filterTypeharddisk;
     var filterCard = req.body.filterCard;
     var filterChip = req.body.filterChip;
+
     var MongoClient = require("mongodb").MongoClient;
      var url = "mongodb://localhost:27017";
   var data1 =" ";
@@ -680,43 +845,212 @@ var chip = "'" + filterChip +"'";
 var ram = "'" + filterRam +"'";
 var harddisk = "'" + filterHarddisk +"'";
 var typeharddisk = "'" + filterTypeharddisk +"'";
-  if(filterWeight != "lckhac") data1 +="weight : "+weight+",";
-  if(filterState != "lckhac") data1 +="state : "+state+",";
-  if(filterCard != "lckhac") data1 +="card : "+card+",";
- if(filterChip != "lckhac") data1+="chip :"+chip+",";
- if(filterRam != "lckhac") data1+="ram :"+ram+",";
- if(filterHarddisk != "lckhac") data1+="harddisk :"+harddisk+",";
- if(filterTypeharddisk != "lckhac") data1+="typeharddisk :"+typeharddisk+",";
+  if(filterWeight != "") data1 +="weight : "+weight+",";
+  if(filterState != "") data1 +="state : "+state+",";
+  if(filterCard != "") data1 +="card : "+card+",";
+ if(filterChip != "") data1+="chip :"+chip+",";
+ if(filterRam != "") data1+="ram :"+ram+",";
+ if(filterHarddisk != "") data1+="harddisk :"+harddisk+",";
+ if(filterTypeharddisk != "") data1+="typeharddisk :"+typeharddisk+",";
  var check = data1.slice(0,data1.length-1);
  
  var test = "{"+check+"}";
- MongoClient.connect(url,function(err,db){
-    if(err) throw err;
-    var dbo = db.db("mydb");
-    
-    var quety = JSON.stringify(eval('('+test+')'));
-    quety=JSON.parse(quety)
-    console.log(quety)
-    dbo.collection("máy tính").find(quety).toArray(function(err,result){
+ console.log(test);
+    // tim kiem tu database cac thuoc tinh loc va tra ve ket qua
+    MongoClient.connect(url,function(err,db){
         if(err) throw err;
-        var data =[];
-        for(var i=0;i<result.length;i++){
-            if(result[i].label == "Dell")
-            data.push(result[i]);
+        var dbo = db.db("mydb");
+        
+        var quety = JSON.stringify(eval('('+test+')'));
+        quety=JSON.parse(quety)
+        console.log(quety);
+       if(test == " "){
+        dbo.collection("máy tính").find({}).toArray(function(err,result){
+            if(err) throw err;
+            var data =[];
+            for(var i=0;i<result.length;i++){
+                if(result[i].label == "Dell")
+                data.push(result[i]);
+                    }   
+            var data2=[];
+            for(var i=0;i<data.length;i++){
+                var convertPrice = data[i].price;
+                var arrayPrice = convertPrice.split(".");
+                var stringPrice=' ';
+                for(var index=0;index<arrayPrice.length; index++)
+                stringPrice += arrayPrice[index];
+                console.log(stringPrice);
+                if((parseInt(stringPrice) >= parseInt(stringMin)) && (parseInt(stringPrice) <= parseInt(stringMax))){
+                    data2.push(data[i]);
                 }
-        var data2=[];
-        for(var i=0;i<data.length;i++){
-            if((parseInt(data[i].price) >= parseInt(filterMinPrice[0])) && (parseInt(data[i].price) <= parseInt(filterMaxPrice[0]))){
-                data2.push(data[i]);
             }
-        }
-            res.render("filterdellProducts",{data:data2});
+                res.render("filterdellProducts",{
+                    data:data2,
+                    filterCard:filterCard,
+                    filterChip:filterChip,
+                    filterState:filterState,
+                    filterWeight:filterWeight,
+                    filterRam:filterRam,
+                    filterTypeharddisk:filterTypeharddisk,
+                    filterHarddisk:filterHarddisk,
+                    filterMaxPrice:stringMax,
+                    filterMinPrice:stringMin
+                });
+                db.close();
+           
+        })
+       }else{
+        dbo.collection("máy tính").find(quety).toArray(function(err,result){
+            if(err) throw err;
+            var data =[];
+            for(var i=0;i<result.length;i++){
+                if(result[i].label == "Dell")
+                data.push(result[i]);
+                    }   
+            var data2=[];
+            for(var i=0;i<data.length;i++){
+                var convertPrice = data[i].price;
+                var arrayPrice = convertPrice.split(".");
+                var stringPrice=' ';
+                for(var index=0;index<arrayPrice.length; index++)
+                stringPrice += arrayPrice[index];
+                if((parseInt(stringPrice) >= parseInt(stringMin)) && (parseInt(stringPrice) <= parseInt(stringMax))){
+                    data2.push(data[i]);
+                }
+            }
+                res.render("filterdellProducts",{
+                    data:data2,
+                    filterCard:filterCard,
+                    filterChip:filterChip,
+                    filterState:filterState,
+                    filterWeight:filterWeight,
+                    filterRam:filterRam,
+                    filterTypeharddisk:filterTypeharddisk,
+                    filterHarddisk:filterHarddisk,
+                    filterMaxPrice:stringMax,
+                    filterMinPrice:stringMin
+                });
+                db.close();
+           
+        })
+       }
+        
+    })
+
+})
+//filter product while exist user
+app.post("/maytinhdell/filter/:id",(req,res)=>{
+    var temp = req.params.id;
+     //tao bien de luu gia tri nguoi dung chon de loc
+     var filterMinPrice = req.body.txtMinPrice;
+     var filterMaxPrice = req.body.txtMaxPrice;
+     // chuyen filterMinprice ve dang string
+     var filterMin = filterMinPrice.substring(0,filterMinPrice.length-2);
+     var minprice = filterMin.split(".");
+     var stringMin = ' ';
+     for(var i=0; i<minprice.length; i++)
+     stringMin += minprice[i];
+     //chuyen filterMaxPrice ve dang string
+     var filterMax = filterMaxPrice.substring(0,filterMaxPrice.length-2);
+     var maxprice = filterMax.split(".");
+     var stringMax = ' ';
+     for(var i=0; i<maxprice.length; i++)
+     stringMax += maxprice[i];
+     console.log(stringMin);
+     console.log(stringMax);
+     var filterState = req.body.filterState;
+     var filterWeight = req.body.filterWeight;
+     var filterRam = req.body.filterRam;
+     var filterHarddisk = req.body.filterHarddisk;
+     var filterTypeharddisk = req.body.filterTypeharddisk;
+     var filterCard = req.body.filterCard;
+     var filterChip = req.body.filterChip;
+ 
+   var data1 =" ";
+ 
+ var weight = "'" + filterWeight +"'"; 
+ var state = "'" + filterState +"'"; 
+ var card = "'" + filterCard +"'";
+ var chip = "'" + filterChip +"'";
+ var ram = "'" + filterRam +"'";
+ var harddisk = "'" + filterHarddisk +"'";
+ var typeharddisk = "'" + filterTypeharddisk +"'";
+   if(filterWeight != "") data1 +="weight : "+weight+",";
+   if(filterState != "") data1 +="state : "+state+",";
+   if(filterCard != "") data1 +="card : "+card+",";
+  if(filterChip != "") data1+="chip :"+chip+",";
+  if(filterRam != "") data1+="ram :"+ram+",";
+  if(filterHarddisk != "") data1+="harddisk :"+harddisk+",";
+  if(filterTypeharddisk != "") data1+="typeharddisk :"+typeharddisk+",";
+  var check = data1.slice(0,data1.length-1);
+  
+  var test = "{"+check+"}";
+  
+    // cap nhat vao database cac thuoc tinh loc
+    var MongoClient = require("mongodb").MongoClient;
+    var url = "mongodb://localhost:27017";
+    MongoClient.connect(url,(err,db)=>{
+        if(err) throw err;
+        var query = {username:temp};
+        var values ={$set: {
+            minPrice:stringMin,
+            maxPrice:stringMax,
+            weight:filterWeight,
+            ram:filterRam,
+            card:filterCard,
+            chip:filterChip,
+            state:filterState,
+            harddisk:filterHarddisk,
+            typeharddisk:filterTypeharddisk
+        }}
+        var dbo = db.db("loginapp");
+        dbo.collection("users").updateOne(query,values,(err,result)=>{
+            if(err) throw err;
+            //tim kiem de tra ve ket qua loc
+            var bo = db.db("mydb");
+            var quety = JSON.stringify(eval('('+test+')'));
+            quety=JSON.parse(quety);
+            console.log(quety);
+            bo.collection("máy tính").find(quety).toArray(function(err,result1){
+                console.log(result1);
+                if(err) throw err;
+                var data =[];
+                for(var i=0;i<result1.length;i++){
+                    if(result1[i].label == "Dell")
+                    data.push(result1[i]);
+                        }   
+                var data2=[];
+                for(var i=0;i<data.length;i++){
+                    var convertPrice = data[i].price;
+                    var arrayPrice = convertPrice.split(".");
+                    var stringPrice=' ';
+                    for(var index=0;index<arrayPrice.length; index++)
+                    stringPrice += arrayPrice[index];
+                    if((parseInt(stringPrice) >= parseInt(stringMin)) && (parseInt(stringPrice) <= parseInt(stringMax))){
+                        data2.push(data[i]);
+                    }
+                }
+                    res.render("filterdellProducts",{
+                        data:data2,
+                        filterCard:filterCard,
+                        filterChip:filterChip,
+                        filterState:filterState,
+                        filterWeight:filterWeight,
+                        filterRam:filterRam,
+                        filterTypeharddisk:filterTypeharddisk,
+                        filterHarddisk:filterHarddisk,
+                        filterMaxPrice:stringMax,
+                        filterMinPrice:stringMin
+                    });
+                    db.close();
+               
+            })
             db.close();
-       
+        })
+
+        
     })
 })
-})
-
 app.post("/maytinhasus/filter",function(req,res){
     //tao bien de luu gia tri nguoi dung chon de loc
     var filterMinPrice = req.body.filterMinPrice;
@@ -739,13 +1073,13 @@ var chip = "'" + filterChip +"'";
 var ram = "'" + filterRam +"'";
 var harddisk = "'" + filterHarddisk +"'";
 var typeharddisk = "'" + filterTypeharddisk +"'";
-  if(filterWeight != "lckhac") data1 +="weight : "+weight+",";
-  if(filterState != "lckhac") data1 +="state : "+state+",";
-  if(filterCard != "lckhac") data1 +="card : "+card+",";
- if(filterChip != "lckhac") data1+="chip :"+chip+",";
- if(filterRam != "lckhac") data1+="ram :"+ram+",";
- if(filterHarddisk != "lckhac") data1+="harddisk :"+harddisk+",";
- if(filterTypeharddisk != "lckhac") data1+="typeharddisk :"+typeharddisk+",";
+  if(filterWeight != "") data1 +="weight : "+weight+",";
+  if(filterState != "") data1 +="state : "+state+",";
+  if(filterCard != "") data1 +="card : "+card+",";
+ if(filterChip != "") data1+="chip :"+chip+",";
+ if(filterRam != "") data1+="ram :"+ram+",";
+ if(filterHarddisk != "") data1+="harddisk :"+harddisk+",";
+ if(filterTypeharddisk != "") data1+="typeharddisk :"+typeharddisk+",";
  var check = data1.slice(0,data1.length-1);
  
  var test = "{"+check+"}";
@@ -798,13 +1132,13 @@ var chip = "'" + filterChip +"'";
 var ram = "'" + filterRam +"'";
 var harddisk = "'" + filterHarddisk +"'";
 var typeharddisk = "'" + filterTypeharddisk +"'";
-  if(filterWeight != "lckhac") data1 +="weight : "+weight+",";
-  if(filterState != "lckhac") data1 +="state : "+state+",";
-  if(filterCard != "lckhac") data1 +="card : "+card+",";
- if(filterChip != "lckhac") data1+="chip :"+chip+",";
- if(filterRam != "lckhac") data1+="ram :"+ram+",";
- if(filterHarddisk != "lckhac") data1+="harddisk :"+harddisk+",";
- if(filterTypeharddisk != "lckhac") data1+="typeharddisk :"+typeharddisk+",";
+  if(filterWeight != "") data1 +="weight : "+weight+",";
+  if(filterState != "") data1 +="state : "+state+",";
+  if(filterCard != "") data1 +="card : "+card+",";
+ if(filterChip != "") data1+="chip :"+chip+",";
+ if(filterRam != "") data1+="ram :"+ram+",";
+ if(filterHarddisk != "") data1+="harddisk :"+harddisk+",";
+ if(filterTypeharddisk != "") data1+="typeharddisk :"+typeharddisk+",";
  var check = data1.slice(0,data1.length-1);
  
  var test = "{"+check+"}";
@@ -857,13 +1191,13 @@ var chip = "'" + filterChip +"'";
 var ram = "'" + filterRam +"'";
 var harddisk = "'" + filterHarddisk +"'";
 var typeharddisk = "'" + filterTypeharddisk +"'";
-  if(filterWeight != "lckhac") data1 +="weight : "+weight+",";
-  if(filterState != "lckhac") data1 +="state : "+state+",";
-  if(filterCard != "lckhac") data1 +="card : "+card+",";
- if(filterChip != "lckhac") data1+="chip :"+chip+",";
- if(filterRam != "lckhac") data1+="ram :"+ram+",";
- if(filterHarddisk != "lckhac") data1+="harddisk :"+harddisk+",";
- if(filterTypeharddisk != "lckhac") data1+="typeharddisk :"+typeharddisk+",";
+  if(filterWeight != "") data1 +="weight : "+weight+",";
+  if(filterState != "") data1 +="state : "+state+",";
+  if(filterCard != "") data1 +="card : "+card+",";
+ if(filterChip != "") data1+="chip :"+chip+",";
+ if(filterRam != "") data1+="ram :"+ram+",";
+ if(filterHarddisk != "") data1+="harddisk :"+harddisk+",";
+ if(filterTypeharddisk != "") data1+="typeharddisk :"+typeharddisk+",";
  var check = data1.slice(0,data1.length-1);
  
  var test = "{"+check+"}";
@@ -916,13 +1250,13 @@ var chip = "'" + filterChip +"'";
 var ram = "'" + filterRam +"'";
 var harddisk = "'" + filterHarddisk +"'";
 var typeharddisk = "'" + filterTypeharddisk +"'";
-  if(filterWeight != "lckhac") data1 +="weight : "+weight+",";
-  if(filterState != "lckhac") data1 +="state : "+state+",";
-  if(filterCard != "lckhac") data1 +="card : "+card+",";
- if(filterChip != "lckhac") data1+="chip :"+chip+",";
- if(filterRam != "lckhac") data1+="ram :"+ram+",";
- if(filterHarddisk != "lckhac") data1+="harddisk :"+harddisk+",";
- if(filterTypeharddisk != "lckhac") data1+="typeharddisk :"+typeharddisk+",";
+  if(filterWeight != "") data1 +="weight : "+weight+",";
+  if(filterState != "") data1 +="state : "+state+",";
+  if(filterCard != "") data1 +="card : "+card+",";
+ if(filterChip != "") data1+="chip :"+chip+",";
+ if(filterRam != "") data1+="ram :"+ram+",";
+ if(filterHarddisk != "") data1+="harddisk :"+harddisk+",";
+ if(filterTypeharddisk != "") data1+="typeharddisk :"+typeharddisk+",";
  var check = data1.slice(0,data1.length-1);
  
  var test = "{"+check+"}";
@@ -980,6 +1314,64 @@ socket.on("gui-comment",function(data){
 })
 socket.on("report",function(data){
 socket.emit("report")
+})
+
+
+// lang nghe su kien click nut like
+socket.on("client-send-like",(data)=>{
+    //update ds nguoi like
+    var MongoClient = require("mongodb").MongoClient;
+    var url = "mongodb://localhost:27017/";
+    MongoClient.connect(url,(err,db)=>{
+        if(err) 
+        console.log("can not connect to database!");
+        else{
+            var dbo = db.db("mydb");
+            var query = {_id:data.idproduct};
+            // day nguoi dung vua like sp vao mang like
+            dbo.collection("máy tính").update(query,{$push: {like :data.username}},(err,result)=>{
+                if(err) console.log("error to update!");
+               
+            })
+            dbo.collection("máy tính").findOne(query,(err,result1)=>{
+                if(err) throw err;
+                console.log("like :"+result1.like);
+                io.sockets.emit("server-send-like",{
+                    listlike:result1.like,
+                    numlike:result1.like.length
+                })
+            })
+        }
+        db.close();
+    })
+
+   
+})
+//lang nghe su kien nhan nut dislike
+socket.on("client-send-dislike",(data)=>{
+    // cap nhat lai danh sach nguoi like sp
+var Mongoclient = require("mongodb").MongoClient;
+var url = "mongodb://localhost:27017/";
+Mongoclient.connect(url,(err,db)=>{
+    if(err) throw err;
+    var dbo = db.db("mydb");
+    var query = {_id:data.idproduct};
+    dbo.collection("máy tính").update(query,{
+        $pull: {like :data.username}
+    },(err,result)=>{
+        if(err) throw err;
+    });
+    dbo.collection("máy tính").findOne(query,(err,result1)=>{
+        if(err) throw err;
+        // server-send-like == server-send-dislike
+        console.log("dislike :"+result1.like);
+        io.sockets.emit("server-send-dislike",{
+            listlike:result1,
+            numlike:result1.like.length
+        })
+    })
+    db.close();
+})
 })
 });
 
@@ -1084,27 +1476,70 @@ app.get('/files/:filename', (req, res) => {
     return res.json(file);
   });
 });
-
+// kay danh sach cac san pham da thich
+app.get("/listlike/:_id",(req,res)=>{
+    var temp = req.params._id;
+    console.log(temp);
+    //truy cap database de lay ra danh sach cac san pham
+    var likeProduct = [];
+    var Mongoclient = require("mongodb").MongoClient;
+    var url="mongodb://localhost:27017/";
+    Mongoclient.connect(url,(err,db)=>{
+        if(err) throw err;
+        var dbo = db.db("mydb");
+        dbo.collection("máy tính").find({}).toArray((err,result)=>{
+            if(err) throw err;
+            //check xem ten user dang su dung co ton tai trong nhung danh sach like nao
+            for(var index=0; index<result.length; index++){
+                if(result[index].like.indexOf(temp) != -1) likeProduct.push(result[index]);
+            }
+            res.render("listlike",{
+                kq:likeProduct
+            })
+        })
+        db.close();
+    })
+})
 //trang chi tiet san pham
 app.get("/sp/sp/:_id",function(req,res){
     var data1;
    var mongoClient = require('mongodb').MongoClient;
    var url = "mongodb://localhost:27017/";
-    var _id = req.params._id;
-    var query = {_id: _id};
+    var temp = req.params._id;
+    var title = temp.split("*");
+    var query = {_id: title[0]};
     mongoClient.connect(url, function(err, db) {
         if (err) throw err;
         var dbo = db.db("mydb");
-        dbo.collection("tempSP").findOne(query,function(err, result) {
+        dbo.collection("máy tính").findOne(query,function(err, result) {
             if(err) throw err;
             data1=result;
             var dbo1=db.db("loginapp");
             dbo1.collection("users").findOne({username:data1.shop},function(err,result){
                 if(err) throw err;
+                
+            if(data1.like.length == 0){
                 res.render("template",{
                     data:data1,
-                    udata:result
+                    udata:result,
+                    check : false,
                 })
+            }else{
+                console.log(data1.like);
+                if(data1.like.indexOf(title[1]) == -1 ){
+                    res.render("template",{
+                        data:data1,
+                        udata:result,
+                        check : false,
+                    })
+                }else{
+                    res.render("template",{
+                        data:data1,
+                        udata:result,
+                        check : true,
+                    })
+                }
+            }
                 db.close();
             })
             db.close();
@@ -1261,8 +1696,6 @@ app.delete('/deleteimage/:id', (req, res) => {
   });
   
 
-
-
 // Thêm sản phẩm
 app.post("/themsanpham",function(req,res){
     if(!test){
@@ -1291,7 +1724,7 @@ if(!name || !price || !describle)
     var MongoClient = require('mongodb').MongoClient;
     var url = "mongodb://localhost:27017/";
 
-   var query = {_id: filename.toString().substring(0,filename.length-4),image: filename,name: name,price: price,shop: title,label: label,chip:chip, weight: weight,ram:ram,harddisk:harddisk,typeharddisk:typeharddisk,card:card,state: state,attached:attached,describle:describle,comment:""};
+   var query = {_id: filename.toString().substring(0,filename.length-4),image: filename,name: name,price: price,shop: title,label: label,chip:chip, weight: weight,ram:ram,harddisk:harddisk,typeharddisk:typeharddisk,card:card,state: state,attached:attached,describle:describle,comment:"",like:[]};
 MongoClient.connect(url, function(err, db) {
   if (err) throw err;
   var dbo = db.db("mydb");

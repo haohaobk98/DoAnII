@@ -18,6 +18,36 @@ var UserSchema = mongoose.Schema({
 	},
 	PhoneNumber:{
 		type: String
+	},
+	minPrice:{
+		type: String
+	},
+	maxPrice:{
+		type: String
+	},
+	weight:{
+		type: String
+	},
+	state:{
+		type: String
+	},
+	chip:{
+		type: String
+	},
+	PhoneNumber:{
+		type: String
+	},
+	ram:{
+		type: String
+	},
+	harddisk:{
+		type: String
+	},
+	typeharddisk:{
+		type: String
+	},
+	card:{
+		type:String
 	}
 });
 

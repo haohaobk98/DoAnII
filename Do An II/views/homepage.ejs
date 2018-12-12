@@ -15,102 +15,162 @@
 <div id = "container_inner_content">
 <div id ="container_inner_content-inner">
         <div id="main-1">
-                <div class="title-sp">
-                    <label>Danh sách sản phẩm máy tính Dell</label>
-                  </div>
-                  <div class="cuon-1" id =" frame-1">
-                    <table>
-                            <tr>
-                              <% MayTinh.forEach((data)=>{%>
-                                <th>
-                               
-                                      <div class="card card-body mb-3">
-                              
-                                          <a href="/sp/sp/<%-data._id%>">  <img src="image/<%= data.image %>" alt="" width="160px" height="160px"></a>
-     
-                                      </div>
-                       
-                                <span class ="ten" id = "ten-1"><%= data.name%></span><br>
-                                <span class ="gia" id = "gia-1"><%= data.price%> VND</span><br>    
-                              </th>
-                              <% }) %>
-                            </tr>
-                    </table>
-                  </div>
-                  
-                  <div class="title-sp">
-                      <label>Danh sách sản phẩm máy tính Asus</label>
-                    </div>
-                  <div class="cuon-1" id =" frame-2">
-                      <table>
-                              <tr>
-                                <% Chuot.forEach((data)=>{%>
-                                  <th>
-                                        <div class="card card-body mb-3">
-                                           <a href="/sp/sp/<%-data._id%>"> <img src="image/<%= data.image %>" alt="" width="160px" height="160px"></a>
-                                        </div>
-                                  <span class ="ten" id = "ten-1"><%= data.name%></span><br>
-                                  <span class ="gia" id = "gia-1"><%= data.price%> VND</span><br>    
-                                </th> 
-                                  <% }) %>
-                              </tr>
-                      </table>
-                    </div>
+<div class="title-sp">
+<label>Danh sách sản phẩm máy tính Dell</label>
+</div>
+<div class="cuon-1" id =" frame-1">
+<table>
+<tr>
+    <%if(user) {%>
+<% MayTinh.forEach((data)=>{%>
 
-                    <div class="title-sp">
-                      <label>Danh sách sản phẩm máy tính Lenovo</label>
-                    </div>
-                  <div class="cuon-1" id =" frame-3">
-                      <table>
-                              <tr>
-                                <% Banphim.forEach((data)=>{%>
-                                  <th>
-                                        <div class="card card-body mb-3">
-                                           <a href="/sp/sp/<%-data._id%>"> <img src="image/<%= data.image %>" alt="" width="160px" height="160px"></a>
-                                        </div>
-                                  <span class ="ten" id = "ten-1"><%= data.name%></span><br>
-                                  <span class ="gia" id = "gia-1"><%= data.price%> VND</span><br>    
-                                </th> 
-                                  <% }) %>
-                              </tr>
-                      </table>
-                    </div>
-                    <div class="title-sp">
-                      <label>Danh sách sản phẩm HP</label>
-                    </div>
-                  <div class="cuon-1" id =" frame-4">
-                      <table>
-                              <tr>
-                                <% Tainghe.forEach((data)=>{%>
-                                  <th>
-                                        <div class="card card-body mb-3">
-                                           <a href="/sp/sp/<%-data._id%>"> <img src="image/<%= data.image %>" alt="" width="160px" height="160px"></a>
-                                        </div>
-                                  <span class ="ten" id = "ten-1"><%= data.name%></span><br>
-                                  <span class ="gia" id = "gia-1"><%= data.price%> VND</span><br>    
-                                </th> 
-                                  <% }) %>
-                              </tr>
-                      </table>
-                    </div>
-                    <div class="title-sp">
-                      <label>Danh sách sản phẩm Acer</label>
-                    </div>
-                  <div class="cuon-1" id =" frame-5">
-                      <table>
-                              <tr>
-                                <% Ocung.forEach((data)=>{%>
-                                  <th>
-                                        <div class="card card-body mb-3">
-                                           <a href="/sp/sp/<%-data._id%>"> <img src="image/<%= data.image %>" alt="" width="160px" height="160px"></a>
-                                        </div>
-                                  <span class ="ten" id = "ten-1"><%= data.name%></span><br>
-                                  <span class ="gia" id = "gia-1"><%= data.price%> VND</span><br>    
-                                </th> 
-                                  <% }) %>
-                              </tr>
-                      </table>
-                    </div>
+<th>
+
+<div class="card card-body mb-3">
+
+    <a href="/sp/sp/<%-data._id%>*<%-user.username%>">  <img src="image/<%= data.image %>" alt="" width="160px" height="160px"></a>
+
+</div>
+
+<span class ="ten" id = "ten-1"><%= data.name%></span><br>
+<span class ="gia" id = "gia-1"><%-data.price%> VND</span>
+  <br>    
+</th>
+<% }) %>
+<% }else {%>
+  <% MayTinh.forEach((data)=>{%>
+  <th>
+
+      <div class="card card-body mb-3">
+      
+          <a href="/sp/sp/<%-data._id%>">  <img src="image/<%= data.image %>" alt="" width="160px" height="160px"></a>
+      
+      </div>
+      
+      <span class ="ten" id = "ten-1"><%= data.name%></span><br>
+      <span class ="gia" id = "gia-1"><%= data.price%> VND</span><br>    
+      </th>
+      <% }) %>
+  <% }%>
+
+</tr>
+</table>
+</div>
+
+<div class="title-sp">
+<label>Danh sách sản phẩm máy tính Asus</label>
+</div>
+<div class="cuon-1" id =" frame-2">
+<table>
+<tr>
+<% Chuot.forEach((data)=>{%>
+  <%if(user) {%>
+<th>
+  <div class="card card-body mb-3">
+      <a href="/sp/sp/<%-data._id%>*<%-user.username%>"> <img src="image/<%= data.image %>" alt="" width="160px" height="160px"></a>
+  </div>
+<span class ="ten" id = "ten-1"><%= data.name%></span><br>
+<span class ="gia" id = "gia-1"><%= data.price%> VND</span><br>    
+</th> 
+<%}else { %>
+  <th>
+      <div class="card card-body mb-3">
+          <a href="/sp/sp/<%-data._id%>"> <img src="image/<%= data.image %>" alt="" width="160px" height="160px"></a>
+      </div>
+    <span class ="ten" id = "ten-1"><%= data.name%></span><br>
+    <span class ="gia" id = "gia-1"><%= data.price%> VND</span><br>    
+    </th> 
+
+  <%}%> 
+<% }) %>
+</tr>
+</table>
+</div>
+
+<div class="title-sp">
+<label>Danh sách sản phẩm máy tính Lenovo</label>
+</div>
+<div class="cuon-1" id =" frame-3">
+<table>
+<tr>
+<% Banphim.forEach((data)=>{%>
+  <% if(user) {%>
+<th>
+  <div class="card card-body mb-3">
+      <a href="/sp/sp/<%-data._id%>*<%-user.username%>"> <img src="image/<%= data.image %>" alt="" width="160px" height="160px"></a>
+  </div>
+<span class ="ten" id = "ten-1"><%= data.name%></span><br>
+<span class ="gia" id = "gia-1"><%= data.price%> VND</span><br>    
+</th> 
+<%} else {%>
+  <th>
+      <div class="card card-body mb-3">
+          <a href="/sp/sp/<%-data._id%>"> <img src="image/<%= data.image %>" alt="" width="160px" height="160px"></a>
+      </div>
+    <span class ="ten" id = "ten-1"><%= data.name%></span><br>
+    <span class ="gia" id = "gia-1"><%= data.price%> VND</span><br>    
+    </th> 
+  <% } %>
+<% }) %>
+</tr>
+</table>
+</div>
+<div class="title-sp">
+<label>Danh sách sản phẩm HP</label>
+</div>
+<div class="cuon-1" id =" frame-4">
+<table>
+<tr>
+<% Tainghe.forEach((data)=>{%>
+  <% if(user) {%>
+<th>
+  <div class="card card-body mb-3">
+      <a href="/sp/sp/<%-data._id%>*<%-user.username%>"> <img src="image/<%= data.image %>" alt="" width="160px" height="160px"></a>
+  </div>
+<span class ="ten" id = "ten-1"><%= data.name%></span><br>
+<span class ="gia" id = "gia-1"><%= data.price%> VND</span><br>    
+</th> 
+<%} else {%>
+  <th>
+      <div class="card card-body mb-3">
+          <a href="/sp/sp/<%-data._id%>"> <img src="image/<%= data.image %>" alt="" width="160px" height="160px"></a>
+      </div>
+    <span class ="ten" id = "ten-1"><%= data.name%></span><br>
+    <span class ="gia" id = "gia-1"><%= data.price%> VND</span><br>    
+    </th> 
+  <%}%>
+<% }) %>
+</tr>
+</table>
+</div>
+<div class="title-sp">
+<label>Danh sách sản phẩm Acer</label>
+</div>
+<div class="cuon-1" id =" frame-5">
+<table>
+<tr>
+<% Ocung.forEach((data)=>{%>
+  <% if(user) {%>
+<th>
+  <div class="card card-body mb-3">
+      <a href="/sp/sp/<%-data._id%>*<%-user.username%>"> <img src="image/<%= data.image %>" alt="" width="160px" height="160px"></a>
+  </div>
+<span class ="ten" id = "ten-1"><%= data.name%></span><br>
+<span class ="gia" id = "gia-1"><%= data.price%> VND</span><br>    
+</th> 
+<%} else {%>
+  <th>
+      <div class="card card-body mb-3">
+          <a href="/sp/sp/<%-data._id%>"> <img src="image/<%= data.image %>" alt="" width="160px" height="160px"></a>
+      </div>
+    <span class ="ten" id = "ten-1"><%= data.name%></span><br>
+    <span class ="gia" id = "gia-1"><%= data.price%> VND</span><br>    
+    </th> 
+  <%}%>
+<% }) %>
+</tr>
+</table>
+</div>
 </div>
 </div>
 </div>

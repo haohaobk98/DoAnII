@@ -293,7 +293,7 @@
                   </div>
                     <div style="display:flex;">
                      <p id = "gia">Giá</p>
-                     <input type="number" id="giatext" name="price">
+                     <input type="text" id="giatext" name="price">
                     </div>
                   </div>
 
@@ -326,5 +326,29 @@
 function uploadimage(){
  $("#taianh").attr("src",$("#ta").val());
 }
+
+   function chuyendoi(x){
+            return x.toLocaleString('it-IT');
+}
+        window.addEventListener("load", function(){
+            var i = document.getElementById("giatext");
+            
+            i.addEventListener("keyup", function(){
+                if(i.value < 10 && i.value >0){
+                    i.value *= 1000;
+                }
+                var n = this.value.replace(/\D/g,'');
+                n = parseInt(n);
+                if(n< 10 && n >0){
+                    n *= 1000;
+                }
+                if(n > 30000000)
+                n = Math.floor(n / 10000) * 1000;
+                i.value = n.toLocaleString("it-IT");
+                if(i.value.length >= 5){
+                    i.focus();
+                    i.selectionEnd = i.value.length - 4;
+                }   })   })
+
 </script>
 </html> 

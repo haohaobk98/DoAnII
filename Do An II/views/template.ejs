@@ -86,9 +86,11 @@
                          
                               <div class="card card-body mb-3">
                             
-                                  <img id="image"src="/image/<%= data.image %>" alt="" width="250px" height="250px">
+                                  <img id="image" src="/image/<%= data.image %>" data-zoom-image="/image/<%= data.image %>" alt="" width="250px" height="250px">
                            
                               </div><br>
+                              <% if(user) { %>
+                                <% if(check) {%>
                               <!-- <div id="report">
                               <button id="btn-report">report sản phẩm</button>
 
@@ -108,7 +110,23 @@
                                 <div class="text-report" style="margin-top:5px;margin-left:23px;">Bạn hãy đăng nhập để report về sản phẩm</div>
                               <% }%>
                             </div> -->
+                              <div id="image-like">
+                                  <img id="like" src="/imagei/like1.png" width="50px" height="50px">
+                              </div>
+                              
+                              <span id="numLike"><%-data.like.length %></span> 
+                              <%} else {%>
+                                <div id="image-like">
+                                    <img id="like" src="/imagei/like.png" width="50px" height="50px">
+                                </div>
                                 
+                                <span id="numLike"><%-data.like.length %></span> 
+
+                                <%}%>
+                               <!--lay ten nguoi dang su dung va id cua san pham-->
+                    <input type="text" id="id-product" value="<%- data._id %>" hidden>
+                    <input type="text" id="username-user" value="<%- user.username%>" hidden>
+                              <%}%>
                   
                   </div></th>
                   <th id="right">
@@ -119,6 +137,8 @@
                     <span id="price"><%- data.price %> VND</span><br>
                     <label>Nhãn hiệu: </label>
                     <span id="label"><%- data.label %> </span><hr>
+                   
+                    <!---->
                     <label>Trạng thái: </label>
                     <span id="state"><%- data.state %> </span><br>
                     <label>Danh mục: </label>
@@ -179,3 +199,18 @@
 </div>
 </div>
 <% include template/body2 %>
+<script src="/js/jquery.elevateZoom-3.0.8.min.js"></script>
+<script src="/js/jquery.elevatezoom.js"></script>
+<script>
+
+$("#image").elevateZoom({
+
+    responsive: true,
+    zoomWindowWidth: 300,
+    zoomWindowHeight:250,
+zoomWindowFadeIn: 100,
+zoomWindowFadeOut: 100,
+scrollZoom: true,
+
+});
+</script>

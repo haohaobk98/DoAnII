@@ -6,32 +6,62 @@
 <div id="nav-inner">
 <nav id="AlphaNav">
 <ul >
+    <% if(user) {%>
 <li>
-    <a href = "/Maytinh/dell" class="title-text"><h5>Máy tính Dell</h5></a>
+    <a href = "/Maytinh/dell/<%-user.username%>" class="title-text"><h5>Máy tính Dell</h5></a>
 </li>
 
 <li>
-    <a href = "/Maytinh/asus" class="title-text"><h5>Máy tính Asus</h5></a>
-
-</li>
-
-<li>
-<a href = "/Maytinh/lenovo" class="title-text"><h5>Máy tính Lenovo </h5></a>
+    <a href = "/Maytinh/asus/<%-user.username%>" class="title-text"><h5>Máy tính Asus</h5></a>
 
 </li>
 
 <li>
-    <a href = "/Maytinh/hp" class="title-text"><h5>Máy tính Hp </h5></a>
+<a href = "/Maytinh/lenovo/<%-user.username%>" class="title-text"><h5>Máy tính Lenovo </h5></a>
 
 </li>
 
 <li>
-    <a href = "/Maytinh/acer" class="title-text"><h5>Máy tính Acer </h5></a>
+    <a href = "/Maytinh/hp/<%-user.username%>" class="title-text"><h5>Máy tính Hp </h5></a>
+
+</li>
+
+<li>
+    <a href = "/Maytinh/acer/<%-user.username%>" class="title-text"><h5>Máy tính Acer </h5></a>
 
 </li>
 <li>
     <a class="title-text" href="/San-pham-khac-297.html"><h5>Máy tính khác</h5></a>
 </li>
+<% }else { %>
+    <li>
+            <a href = "/Maytinh/dell" class="title-text"><h5>Máy tính Dell</h5></a>
+        </li>
+        
+        <li>
+            <a href = "/Maytinh/asus" class="title-text"><h5>Máy tính Asus</h5></a>
+        
+        </li>
+        
+        <li>
+        <a href = "/Maytinh/lenovo" class="title-text"><h5>Máy tính Lenovo </h5></a>
+        
+        </li>
+        
+        <li>
+            <a href = "/Maytinh/hp" class="title-text"><h5>Máy tính Hp </h5></a>
+        
+        </li>
+        
+        <li>
+            <a href = "/Maytinh/acer" class="title-text"><h5>Máy tính Acer </h5></a>
+        
+        </li>
+        <li>
+            <a class="title-text" href="/San-pham-khac-297.html"><h5>Máy tính khác</h5></a>
+        </li>
+
+    <%}%>
 </ul>
 </nav>
 </div>

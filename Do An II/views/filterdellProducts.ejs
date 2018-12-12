@@ -1,4 +1,13 @@
-
+<style>
+        table,tr,td{
+            border-collapse: collapse;
+            padding:5px;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+        select{
+            width:200px;
+        }
+        </style>
 <% include template/body1 %>
 <div id = "container">
     <!-- header starts here-->
@@ -19,43 +28,51 @@
        <div id="filterProduct">
         <p> Lọc theo Sản Phẩm <i class="fa fa-angle-down" style="margin-right:660px"></i></p>
        </div>
-       <dialog id="filter-wrapper">
+       <div id="filter-wrapper" style="display:none;">
        
           
-            <form action="/maytinhdell/filter" method="POST">
-                <label>Giá:(min:3.000.000 VND,max:30.000.000 VND)</label><br>
-             <label>Min:</label><br>
-             <div class="slidecontainer">
-                <input type="range" min="3000000" max="30000000" value="3000000" class="slider" id="myRange" name="filterMinPrice" step="1000">
-                <!-- <p>Value: <span id="demo"></span></p> -->
-                <label>Value: </label>
-                <input type="text" name="filterMinPrice" id="demo">
-              </div>
-             <br>
-
-             <label>Max:</label><br>
-             <div class="slidecontainer">
-                <input type="range" min="3000000" max="30000000" value="30000000" class="slider" id="myRange1" name="filterMaxPrice" step="1000">
-                <!-- <p>Value: <span id="demo"></span></p> -->
-                <label>Value: </label>
-                <input type="text" name="filterMaxPrice" id="demo1">
-              </div>
+        <% if(user) {%>
+            <form action="/maytinhdell/filter/<%-user.username %>" method="POST"> 
+                <%}else { %>
+                    <form action="/maytinhdell/filter" method="POST"> 
+                    <% } %>
+                Giá:<span id="Spanoutput"></span><br><br>
+            <div id="slider"></div>
+            
+            <input type="text" id="txtMinPrice" name="txtMinPrice" value="<%=filterMinPrice%>" hidden>
+            <input type="text" id="txtMaxPrice" name="txtMaxPrice" value="<%=filterMaxPrice%>" hidden>
              <br><hr>
-             
-             <span>
-             <label>Trạng thái</label>
+             <table>
+             <tr>
+                 <td>
+             <label>Trạng thái</label></td>
+            <td>
+                
              <select name="filterState" id="filterState">
-                 <option value="lckhac"></option>
+                    <%if(filterState.length != 2) {%>
+                 <option value="<%=filterState%>"><%=filterState%></option>  
+                 <option value=""></option>
+                 <%} else {%>
+                 <option value=""></option>  
+                <%}%>
                  <option value="Còn mới">Còn mới</option>
                  <option value="Đã qua sử dụng">Đã qua sử dụng</option>
              </select>
-            </span>
             
-            <span class="space">
-             <label>Khối lượng</label>
+            </td>
+            <td></td>
+            <td></td>
+            
+        <td>
+             <label>Khối lượng</label></td><td>
+                
              <select name="filterWeight" id="filterWeight">
-                 
-                     <option value="lckhac"></option>
+                    <% if(filterWeight != ' '){%>
+                    <option value="<%=filterWeight%>"><%=filterWeight%></option>
+                    <option value=""></option>
+                    <%}else{ %>
+                        <option value=""></option>
+                    <% } %>
                      <option value="Nhỏ hơn 1 kg">Nhỏ hơn 1 kg</option>
                      <option value="1 kg"> 1 kg</option>
                      <option value="1.25 kg"> 1.25 kg</option>
@@ -65,12 +82,22 @@
                      <option value="2.25 kg"> 2.25 kg</option>
                      <option value="2.5 kg"> 2.5 kg</option>
                      <option value="Lớn hơn 2.5 kg">Lớn hơn 2.5 kg</option>
-             </select></span><br><hr>
+             </select>
+             
+            
+            </td>
+             </tr>
 
-             <span >
-             <label>Ram</label>
+             <tr>
+                <td>
+             <label>Ram</label></td><td>
              <select name="filterRam" class="filterSelect">
-                    <option value="lckhac"></option>
+                 <% if(filterRam != ' '){ %>
+                    <option value="<%=filterRam%>"><%=filterRam%></option>
+                    <option value=""></option>
+                    <% }else { %>
+                    <option value=""></option>
+                    <%}%>
                     <option value="Nhỏ hơn 1 GB">Nhỏ hơn 1 GB</option>
                     <option value="1 GB"> 1 GB</option>
                     <option value="2 GB"> 2 GB</option>
@@ -80,12 +107,18 @@
                     <option value="16 GB"> 16 GB</option>
                     <option value="32 GB"> 32 GB</option>
                     <option value="Lớn hơn 32 GB">Lớn hơn 32 GB</option>
-                  </select></span>
-
-                  <span class="space">
-                  <label>Ổ cứng</label>
+                  </select></td>
+                  <td></td>
+                  <td></td>
+                <td>
+                  <label>Ổ cứng</label></td><td>
                   <select name="filterHarddisk" class="filterSelect">
-                        <option value="lckhac"></option>
+                        <% if(filterHarddisk != ' '){ %>
+                            <option value="<%=filterHarddisk%>"><%=filterHarddisk%></option>
+                            <option value=""></option>
+                            <% }else { %>
+                            <option value=""></option>
+                            <%}%>
                         <option value="Nhỏ hơn 128 GB">Nhỏ hơn 128 GB</option>
                       <option value="128 GB"> 128 GB</option>
                       <option value="250 GB"> 250 GB</option>
@@ -96,54 +129,90 @@
                       <option value="700 GB"> 700 GB</option>
                       <option value="1 TB"> 1 TB</option>
                       <option value="Lớn hơn 1 TB">Lớn hơn 1 TB</option>
-                    </select></span><hr>
-                    <span>
-                    <label>Loại ổ cứng</label>
+                    </select></td>
+                    </tr>
+                    <tr>
+                        <td>
+                    <label>Loại ổ cứng</label></td><td>
                     <select name="filterTypeharddisk" class="filterSelect">
-                            <option value="lckhac"></option>
+                            <% if(filterTypeharddisk != ' '){ %>
+                                <option value="<%=filterTypeharddisk%>"><%=filterTypeharddisk%></option>
+                                <option value=""></option>
+                                <% }else { %>
+                                <option value=""></option>
+                                <%}%>
                             <option value="SSD">SSD</option>
                             <option value="HHD">HHD</option>
                           </select>
-                        </span>
-                        <span class="space1" >
-                    <label>Card màn hình</label>
+                        </td>
+                        <td>
+                        </td>
+                        <td></td>
+                    <td>
+                    <label>Card màn hình</label></td>
+                <td>
                     <select name="filterCard" class="filterSelect">
-                            <option value="lckhac"></option>
+                            <% if(filterCard != ' '){ %>
+                                <option value="<%=filterCard%>"><%=filterCard%></option>
+                                <option value=""></option>
+                                <% }else { %>
+                                <option value=""></option>
+                                <%}%>
                             <option value="Onboard">Onboard</option>
                             <option value="AMD">AMD</option>
                             <option value="NVIDIA">NVIDIA</option>
                             <option value="khác">khác</option>
                           </select>
-                        </span>
-                        <span class="space1" >
+                        </td>
+                        </tr>
+                        <tr>
+                        <td colspan="6" style="text-align:center">
                     <label>Bộ vi xử lí</label>
                     <select name="filterChip" class="filterSelect">
-                            <option value="lckhac"></option>
+                            <% if(filterChip != ' '){ %>
+                                <option value="<%=filterChip%>"><%=filterChip%></option>
+                                <option value=""></option>
+                                <% }else { %>
+                                <option value=""></option>
+                                <%}%>
                             <option value="Intel Core i3">Intel Core i3</option>
                             <option value="Intel Core i5">Intel Core i5</option>
                             <option value="Intel Core i7">Intel Core i7</option>
                             <option value="Intel Core i9">Intel Core i9</option>
                             <option value="khác">khác</option>
-                    </select></span><hr>
-
+                    </select></td>
+                    </tr>
+                    </table>
              <input type="submit" value="Lọc" id="filterSubmit">
              
          </form>
         
-      </dialog>
+      </div>
        <div class="cuon-1" id =" frame-1">
          <table class="table-listproduct">
                  <tr class="table-listproduct">
-                     <% if(data.length==0){%>
-                      <h2>Bạn chưa đăng sản phẩm nào </h2>
-                   <% } else {  data.forEach((da)=>{%>
-                     <th style="display:inline-block;" class="table-listproduct">
-                         <a href="/sp/sp/<%= da._id%>"><img id="0" src="/image/<%= da.image%>" width="150px" height="150px"></a><br>
-                         <span class ="ten" id = "ten-1"><%= da.name%></span><br>
-                         <span class ="gia" id = "gia-1"><%= da.price%> VND</span><br>      
-                     </th>
-                   <% })} %>
-                
+                        <% if(user) {%>
+                            <% if(data.length==0){%>
+                             <h2>Bạn chưa đăng sản phẩm nào </h2>
+                          <% } else {  data.forEach((da)=>{%>
+                            <th style="display:inline-block;" class="table-listproduct">
+                                <a href="/sp/sp/<%= da._id%>*<%-user.username%>"><img id="0" src="/image/<%= da.image%>" width="150px" height="150px"></a><br>
+                                <span class ="ten" id = "ten-1"><%= da.name%></span><br>
+                                <span class ="gia" id = "gia-1"><%= da.price%> VND</span><br>      
+                            </th>
+                          <% })} %>
+                          <%} else {%>
+                           <% if(data.length==0){%>
+                               <h2>Bạn chưa đăng sản phẩm nào </h2>
+                            <% } else {  data.forEach((da)=>{%>
+                              <th style="display:inline-block;" class="table-listproduct">
+                                  <a href="/sp/sp/<%= da._id%>"><img id="0" src="/image/<%= da.image%>" width="150px" height="150px"></a><br>
+                                  <span class ="ten" id = "ten-1"><%= da.name%></span><br>
+                                  <span class ="gia" id = "gia-1"><%= da.price%> VND</span><br>      
+                              </th>
+                              <% })} %>
+                           <% } %>
+                       
                  </tr>
          </table>
        </div>
@@ -155,27 +224,86 @@
 <% include template/footer %>
 </div>
 </div>
-</body>
-<script>
-    var slider = document.getElementById("myRange");
-    var output = document.getElementById("demo");
-    // output.innerHTML = slider.value;
-    output.value = slider.value;
-    
-    slider.oninput = function() {
-      output.value = this.value;
-    }
 
-   
-    </script>
-    <script>
-          var slider1 = document.getElementById("myRange1");
-    var output1 = document.getElementById("demo1");
-    // output.innerHTML = slider.value;
-    output1.value = slider1.value;
-    
-    slider1.oninput = function() {
-      output1.value = this.value;
+</body>
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<!-- <script>
+$(document).ready(function(){
+    var outputSpan = $("#Spanoutput");
+    var sliderRange = $("#slider");
+    $("#slider").slider({
+        range:true,
+        min:1000000,
+        max:30000000,
+        step:1000,
+        values:[$("#txtMinPrice").val(),$("#txtMaxPrice").val()],
+        slide : function(event,ui){
+            outputSpan.html(" Từ " + ui.values[0] + "  đến  " + ui.values[1] + "VND");
+            $("#txtMinPrice").val(ui.values[0]);
+            $("#txtMaxPrice").val(ui.values[1]);
+        }
+    });
+    outputSpan.html(" Từ " + sliderRange.slider('values',0) + " đến " + sliderRange.slider('values',1)+ " VND ");
+    $("#txtMinPrice").val(sliderRange.slider('values',0));
+    $("#txtMaxPrice").val(sliderRange.slider('values',0));
+})
+</script> -->
+<script>
+    if($("#txtMinPrice").val() == " "){
+        const formatter = new Intl.NumberFormat('it-IT',{
+        style :'currency',
+        currency : 'VND'
+    })
+$(document).ready(function(){
+    var outputSpan = $("#Spanoutput");
+    var sliderRange = $("#slider");
+    $("#slider").slider({
+        range:true,
+        min:1000000,
+        max:30000000,
+        step:1000,
+        values:[1000000,30000000],
+        slide : function(event,ui){
+            outputSpan.html(" Từ " + formatter.format(ui.values[0]) + "  đến  " +formatter.format(ui.values[1]));
+            $("#txtMinPrice").val(formatter.format(ui.values[0]));
+            $("#txtMaxPrice").val(formatter.format(ui.values[1]));
+        }
+    });
+    var min = formatter.format(sliderRange.slider('values',0));
+    var max = formatter.format(sliderRange.slider('values',1));
+    outputSpan.html(" Từ " + min + " đến " + max);
+    $("#txtMinPrice").val(min);
+    $("#txtMaxPrice").val(max);
+})
+    }else{
+        const formatter = new Intl.NumberFormat('it-IT',{
+        style :'currency',
+        currency : 'VND'
+    })
+$(document).ready(function(){
+    var outputSpan = $("#Spanoutput");
+    var sliderRange = $("#slider");
+    $("#slider").slider({
+        range:true,
+        min:1000000,
+        max:30000000,
+        step:1000,
+        values:[$("#txtMinPrice").val(),$("#txtMaxPrice").val()],
+        slide : function(event,ui){
+            outputSpan.html(" Từ " + formatter.format(ui.values[0]) + "  đến  " +formatter.format(ui.values[1]));
+            $("#txtMinPrice").val(formatter.format(ui.values[0]));
+            $("#txtMaxPrice").val(formatter.format(ui.values[1]));
+        }
+    });
+    var min = formatter.format(sliderRange.slider('values',0));
+    var max = formatter.format(sliderRange.slider('values',1));
+    outputSpan.html(" Từ " + min + " đến " + max);
+    $("#txtMinPrice").val(min);
+    $("#txtMaxPrice").val(max);
+})
     }
-    </script>
+    
+</script>
+
 </html>

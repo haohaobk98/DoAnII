@@ -15,6 +15,14 @@ socket.on("report",function(){
        $("#textarea").val("");
    });
 })
+// lang nghe server tra ve su kien khi click like
+socket.on("server-send-like",(data)=>{
+    $("#numLike").html(data.numlike);
+})
+// lang nghe server tra ve su kien khi click dislike
+socket.on("server-send-dislike",(data)=>{
+    $("#numLike").html(data.numlike);
+})
 $(document).ready(function(){
     $("#btn-report").click(function(){
         $(".text-report").slideToggle();
@@ -41,13 +49,25 @@ $(document).ready(function(){
     });
    
     socket.emit("list-sp");
+
+    // chuc nang like san pham
     $("#like").click(function(){
         if( $("#like").attr("src")=="/imagei/like.png")
        {
-           $("#like").attr("src","/imagei/like1.png")
+           $("#like").attr("src","/imagei/like1.png");
+           socket.emit("client-send-like",{
+            idproduct:$("#id-product").val(),
+            username:$("#username-user").val()
+        });
         }
-        else
-        $("#like").attr("src","/imagei/like.png")
+        else{
+            $("#like").attr("src","/imagei/like.png");
+            socket.emit("client-send-dislike",{
+                idproduct:$("#id-product").val(),
+                username:$("#username-user").val()
+            });
+        }
+       
     })
     $("#follow").click(function(){
         if( $("#follow").attr("src")=="/imagei/unfollow.png")
@@ -84,6 +104,7 @@ function  mota(){
     $("#mota").show();
     $("#binhluan").hide();
 }
+
 $(document).ready(function(){
     $("#filterProduct").click(function(){
         $("#filter-wrapper").slideToggle();
